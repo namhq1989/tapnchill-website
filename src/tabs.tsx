@@ -1,5 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import EffectPreview from '@/effect/preview.tsx'
+import tabsConfig from '@/tabs-config.ts'
+import EffectContent from '@/effect/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -23,7 +26,7 @@ const Tabs = (props: ITabsProps) => {
       initial={false}
       animate={props.isMenuOpened ? { opacity: 1 } : { opacity: 0 }}
       transition={{
-        duration: 0.5,
+        duration: 0.2,
         ease: 'easeInOut',
       }}
     >
@@ -42,16 +45,12 @@ const Tabs = (props: ITabsProps) => {
           className='col-span-6 md:col-span-2 h-[250px] glassmorphism'
           onClick={() => openTab('div-2')}
         ></motion.div>
-        <motion.div
-          layoutId='div-3'
-          className='col-span-6 md:col-span-3 h-[250px] glassmorphism'
-          onClick={() => openTab('div-3')}
-        ></motion.div>
-        <motion.div
-          layoutId='div-4'
-          className='col-span-6 md:col-span-3 h-[250px] glassmorphism'
-          onClick={() => openTab('div-4')}
-        ></motion.div>
+        {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.effect && (
+          <EffectPreview
+            tabId={tabsConfig.tabIds.effect}
+            onClick={() => openTab(tabsConfig.tabIds.effect)}
+          />
+        )}
         <motion.div
           layoutId='div-5'
           className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
@@ -89,27 +88,8 @@ const Tabs = (props: ITabsProps) => {
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-3' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-3'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-4' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-4'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
+        {tabOpenedId == tabsConfig.tabIds.effect && (
+          <EffectContent closeTab={closeTab} />
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
