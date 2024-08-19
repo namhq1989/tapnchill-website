@@ -3,6 +3,7 @@ import { useState } from 'react'
 import EffectPreview from '@/effect/preview.tsx'
 import tabsConfig from '@/tabs-config.ts'
 import EffectContent from '@/effect/content.tsx'
+import TimerPreview from '@/timer/preview.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -51,6 +52,12 @@ const Tabs = (props: ITabsProps) => {
             onClick={() => openTab(tabsConfig.tabIds.effect)}
           />
         )}
+        {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.timer && (
+          <TimerPreview
+            tabId={tabsConfig.tabIds.timer}
+            onClick={() => openTab(tabsConfig.tabIds.timer)}
+          />
+        )}
         <motion.div
           layoutId='div-5'
           className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
@@ -93,10 +100,10 @@ const Tabs = (props: ITabsProps) => {
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-5' && (
+        {tabOpenedId == tabsConfig.tabIds.timer && (
           <motion.div
             className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-5'
+            layoutId={tabsConfig.tabIds.timer}
             onClick={closeTab}
           >
             <motion.h3>OPENED CARD</motion.h3>
