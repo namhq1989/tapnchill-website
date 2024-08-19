@@ -4,12 +4,13 @@ import { Settings2, X } from 'lucide-react'
 import useEffectStore from '@/effect/store.ts'
 import React from 'react'
 import ContentItem from '@/effect/content-item.tsx'
+import animateConfig from '@/animate-config.ts'
 
-interface ITabEffectContentProps {
+interface IEffectContentProps {
   closeTab: () => void
 }
 
-const EffectContent = React.forwardRef<HTMLDivElement, ITabEffectContentProps>(
+const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
   (props, ref) => {
     const { effects, toggleEffect } = useEffectStore((state) => state)
 
@@ -18,16 +19,7 @@ const EffectContent = React.forwardRef<HTMLDivElement, ITabEffectContentProps>(
         ref={ref}
         className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism-parent z-10 p-4'
         layoutId={tabsConfig.tabIds.effect}
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.5,
-          ease: 'easeInOut',
-        }}
+        {...animateConfig.contentEnter}
       >
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row'>

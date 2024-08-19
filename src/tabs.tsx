@@ -4,6 +4,7 @@ import EffectPreview from '@/effect/preview.tsx'
 import tabsConfig from '@/tabs-config.ts'
 import EffectContent from '@/effect/content.tsx'
 import TimerPreview from '@/timer/preview.tsx'
+import TimerContent from '@/timer/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -101,14 +102,7 @@ const Tabs = (props: ITabsProps) => {
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
         {tabOpenedId == tabsConfig.tabIds.timer && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId={tabsConfig.tabIds.timer}
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
+          <TimerContent closeTab={closeTab} />
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>

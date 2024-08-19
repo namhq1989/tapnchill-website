@@ -1,8 +1,8 @@
-import { useShallow } from 'zustand/react/shallow'
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Cog } from 'lucide-react'
+import { Pause, Play, Timer } from 'lucide-react'
 import useTimerStore from '@/timer/store.ts'
+import Countdown from '@/timer/countdown.tsx'
 
 interface ITimerPreviewProps {
   tabId: string
@@ -10,44 +10,32 @@ interface ITimerPreviewProps {
 }
 
 const TimerPreview = (props: ITimerPreviewProps) => {
-  const { timeLeft, isRunning, startTimer } = useTimerStore(
-    useShallow((state) => state),
-  )
-
-  const { seconds } = extractMinutesAndSeconds(timeLeft)
-
-  console.log('seconds', seconds)
+  const { isRunning, startTimer, pauseTimer } = useTimerStore((state) => state)
 
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-2 glassmorphism p-4'
+      className='col-span-6 md:col-span-3 max-h-[160px] glassmorphism p-4'
     >
-      <motion.div className='flex justify-end items-center'>
-        <Cog className='cursor-pointer' size={28} />
+      <motion.div className='flex justify-between items-center'>
+        {isRunning ? (
+          <Pause
+            className='cursor-pointer'
+            size={28}
+            onClick={() => pauseTimer()}
+          />
+        ) : (
+          <Play
+            className='cursor-pointer'
+            size={28}
+            onClick={() => startTimer()}
+          />
+        )}
+        <Timer className='cursor-pointer' size={28} onClick={props.onClick} />
       </motion.div>
-      <motion.h1>Countdown: {timeLeft} seconds</motion.h1>
-      <motion.div>Seconds {seconds}</motion.div>
-      <motion.button onClick={() => startTimer()} disabled={isRunning}>
-        Start
-      </motion.button>
-      {/*<motion.button onClick={pauseTimer} disabled={!isRunning}>*/}
-      {/*  Pause*/}
-      {/*</motion.button>*/}
-      {/*<motion.button onClick={() => resetTimer()} disabled={isRunning}>*/}
-      {/*  Reset*/}
-      {/*</motion.button>*/}
+      <Countdown />
     </motion.div>
   )
-}
-
-function extractMinutesAndSeconds(timeLeft: number): {
-  minutes: number
-  seconds: number
-} {
-  const minutes = Math.floor(timeLeft / 60)
-  const seconds = timeLeft % 60
-  return { minutes, seconds }
 }
 
 export default React.memo(TimerPreview)

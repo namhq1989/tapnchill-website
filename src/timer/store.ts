@@ -8,6 +8,9 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
   timeLeft: DEFAULT_TIMER,
   isRunning: false,
   intervalId: null,
+  setTime: (time: number) => {
+    set({ timeLeft: time })
+  },
   startTimer: () => {
     if (get().isRunning) return
 
@@ -17,7 +20,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
         set({ timeLeft: timeLeft - 1 })
       } else {
         clearInterval(get().intervalId as number)
-        set({ isRunning: false })
+        set({ isRunning: false, timeLeft: DEFAULT_TIMER })
 
         const { showNotification } = useNotificationStore.getState()
         showNotification({
