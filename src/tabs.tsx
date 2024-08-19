@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import TabEffectPreview from '@/tab-effect-preview.tsx'
+import EffectPreview from '@/effect/preview.tsx'
 import tabsConfig from '@/tabs-config.ts'
-import TabEffectContent from '@/tab-effect-content.tsx'
+import EffectContent from '@/effect/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -20,8 +20,6 @@ const Tabs = (props: ITabsProps) => {
     setTabOpenedId('')
     document.body.style.overflow = 'auto'
   }
-
-  console.log('render')
 
   return (
     <motion.div
@@ -47,10 +45,12 @@ const Tabs = (props: ITabsProps) => {
           className='col-span-6 md:col-span-2 h-[250px] glassmorphism'
           onClick={() => openTab('div-2')}
         ></motion.div>
-        <TabEffectPreview
-          tabId={tabsConfig.tabIds.effect}
-          onClick={() => openTab(tabsConfig.tabIds.effect)}
-        />
+        {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.effect && (
+          <EffectPreview
+            tabId={tabsConfig.tabIds.effect}
+            onClick={() => openTab(tabsConfig.tabIds.effect)}
+          />
+        )}
         <motion.div
           layoutId='div-5'
           className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
@@ -89,7 +89,7 @@ const Tabs = (props: ITabsProps) => {
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
         {tabOpenedId == tabsConfig.tabIds.effect && (
-          <TabEffectContent closeTab={closeTab} />
+          <EffectContent closeTab={closeTab} />
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
