@@ -72,6 +72,7 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
                     setTime(t.time)
                     showNotification({ description: `Timer set for ${t.text}` })
                   }}
+                  disabled={isRunning}
                 >
                   {t.text}
                 </Button>

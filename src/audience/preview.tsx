@@ -20,7 +20,7 @@ const AudiencePreview = (props: IAudiencePreviewProps) => {
         <motion.div className='flex flex-col h-full justify-start items-center'>
           <motion.p className='text-6xl self-start'>{audienceText()}</motion.p>
           <motion.p className='text-muted-foreground'>
-            {otherText()} {endingText()}
+            {otherText()} {endingText}
           </motion.p>
         </motion.div>
       ) : (

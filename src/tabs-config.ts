@@ -1,4 +1,5 @@
 const tabIds = {
+  mood: 'tab-mood',
   effect: 'tab-effect',
   timer: 'tab-timer',
   calendar: 'tab-calendar',

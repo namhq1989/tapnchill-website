@@ -29,6 +29,7 @@ const ENDING_TEXTS = [
 
 const useAudienceStore = create<IAudienceStore>((_, get) => ({
   audiences: 53,
+  endingText: ENDING_TEXTS[Math.floor(Math.random() * ENDING_TEXTS.length)],
   noOneText: () => {
     return NO_ONE_TEXTS[Math.floor(Math.random() * NO_ONE_TEXTS.length)]
   },
@@ -44,9 +45,6 @@ const useAudienceStore = create<IAudienceStore>((_, get) => ({
   },
   otherText: () => {
     return get().audiences === 1 ? 'other' : 'others'
-  },
-  endingText: () => {
-    return ENDING_TEXTS[Math.floor(Math.random() * ENDING_TEXTS.length)]
   },
 }))
 
