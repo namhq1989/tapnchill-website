@@ -6,6 +6,7 @@ import EffectContent from '@/effect/content.tsx'
 import TimerPreview from '@/timer/preview.tsx'
 import TimerContent from '@/timer/content.tsx'
 import CalendarPreview from '@/calendar/preview.tsx'
+import AudiencePreview from '@/audience/preview.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -38,11 +39,12 @@ const Tabs = (props: ITabsProps) => {
         onClick={closeTab}
       ></motion.div>
       <motion.div className='grid grid-cols-6 gap-4 auto-rows-min w-[500px] max-w-full'>
-        <motion.div
-          layoutId='div-1'
-          className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
-          onClick={() => openTab('div-1')}
-        ></motion.div>
+        {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.audience && (
+          <AudiencePreview
+            tabId={tabsConfig.tabIds.audience}
+            onClick={() => openTab(tabsConfig.tabIds.audience)}
+          />
+        )}
         {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.calendar && (
           <CalendarPreview
             tabId={tabsConfig.tabIds.calendar}

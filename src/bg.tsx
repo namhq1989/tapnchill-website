@@ -1,5 +1,5 @@
 import '@/assets/stylesheet/bg.css'
-import chillMP4 from '@/assets/wallpapers/coffee-shop.1920x1080.mp4'
+import chillMP4 from '@/assets/wallpapers/car-driving.1920x1080.mp4'
 
 const Background = () => {
   return (
