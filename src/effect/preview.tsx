@@ -33,7 +33,7 @@ const EffectPreview = (props: IEffectPreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-3 glassmorphism p-4'
+      className='col-span-6 md:col-span-3 min-h-[170px] glassmorphism p-4'
     >
       <motion.div className='flex justify-end items-center'>
         <Settings2 className='cursor-pointer' size={28} onClick={handleClick} />

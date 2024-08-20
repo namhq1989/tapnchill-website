@@ -1,7 +1,7 @@
 import { ICalendarStore } from '@/calendar/types.ts'
 import { create } from 'zustand'
 
-const daysOfWeek = [
+const DAYS_OF_WEEK = [
   'Sunday',
   'Monday',
   'Tuesday',
@@ -11,7 +11,7 @@ const daysOfWeek = [
   'Saturday',
 ]
 
-const monthsOfYear = [
+const MONTHS_OF_YEAR = [
   'January',
   'February',
   'March',
@@ -45,8 +45,8 @@ const useCalendarStore = create<ICalendarStore>((set) => ({
 
     set({ currentDate: date, previousDays, nextDays })
   },
-  getDayOfWeek: (date: Date) => daysOfWeek[date.getDay()],
-  getMonth: (date: Date) => monthsOfYear[date.getMonth()],
+  getDayOfWeek: (date: Date) => DAYS_OF_WEEK[date.getDay()],
+  getMonth: (date: Date) => MONTHS_OF_YEAR[date.getMonth()],
 }))
 
 export default useCalendarStore

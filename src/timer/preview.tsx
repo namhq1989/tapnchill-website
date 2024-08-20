@@ -17,7 +17,7 @@ const TimerPreview = (props: ITimerPreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-3 max-h-[160px] glassmorphism p-4'
+      className='col-span-6 md:col-span-3 h-[170px] glassmorphism p-4'
     >
       <motion.div className='flex justify-between items-center'>
         {isRunning ? (
