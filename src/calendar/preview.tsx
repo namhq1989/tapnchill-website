@@ -40,7 +40,7 @@ const CalendarPreview = (props: ICalendarPreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-4 min-h-[170px] glassmorphism p-4'
+      className='col-span-6 md:col-span-4 h-[170px] glassmorphism p-4'
     >
       <motion.div className='flex flex-col justify-between items-center'>
         <motion.div className='flex flex-row justify-start w-full items-center mb-4'>

@@ -14,7 +14,7 @@ const AudiencePreview = (props: IAudiencePreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-3 md:col-span-2 max-h-[170px] glassmorphism p-4'
+      className='col-span-3 md:col-span-2 h-[170px] glassmorphism p-4'
     >
       {audiences > 0 ? (
         <motion.div className='flex flex-col h-full justify-start items-center'>
