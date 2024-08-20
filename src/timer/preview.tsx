@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Pause, Play, Timer } from 'lucide-react'
+import { Pause, Play, RotateCcw, Timer } from 'lucide-react'
 import useTimerStore from '@/timer/store.ts'
 import Countdown from '@/timer/countdown.tsx'
 
@@ -10,7 +10,9 @@ interface ITimerPreviewProps {
 }
 
 const TimerPreview = (props: ITimerPreviewProps) => {
-  const { isRunning, startTimer, pauseTimer } = useTimerStore((state) => state)
+  const { isRunning, startTimer, pauseTimer, resetTimer } = useTimerStore(
+    (state) => state,
+  )
 
   return (
     <motion.div
@@ -31,8 +33,14 @@ const TimerPreview = (props: ITimerPreviewProps) => {
             onClick={() => startTimer()}
           />
         )}
+        <RotateCcw
+          className={`${isRunning ? 'cursor-not-allowed text-muted-foreground' : 'cursor-pointer'}`}
+          size={28}
+          onClick={() => !isRunning && resetTimer()}
+        />
         <Timer className='cursor-pointer' size={28} onClick={props.onClick} />
       </motion.div>
+      <div className='h-2' />
       <Countdown />
     </motion.div>
   )

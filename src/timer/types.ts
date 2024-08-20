@@ -1,4 +1,5 @@
 export interface ITimerStore {
+  timeSet: number
   timeLeft: number
   isRunning: boolean
   intervalId: number | NodeJS.Timeout | null

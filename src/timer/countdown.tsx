@@ -20,7 +20,7 @@ const Countdown = () => {
   const { minutes, seconds } = extractMinutesAndSeconds(timeLeft)
 
   return (
-    <motion.div className='flex h-[100px] justify-center items-center text-6xl pt-4'>
+    <motion.div className='flex h-[100px] justify-center items-center text-6xl'>
       {minutes}:{seconds}
     </motion.div>
   )

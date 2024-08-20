@@ -1,13 +1,15 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import tabsConfig from '@/tabs-config.ts'
-import { Timer, X } from 'lucide-react'
+import { Pause, Play, RotateCcw, Timer, X } from 'lucide-react'
 import animateConfig from '@/animate-config.ts'
 import Countdown from '@/timer/countdown.tsx'
 import TimeInput from '@/timer/time-input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import listQuickTimers from '@/timer/list-quick-timers.ts'
 import useTimerStore from '@/timer/store.ts'
+import { IQuickTimer } from '@/timer/types.ts'
+import useNotificationStore from '@/notification/store.ts'
 
 interface ITimerContentProps {
   closeTab: () => void
@@ -15,7 +17,9 @@ interface ITimerContentProps {
 
 const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
   (props, ref) => {
-    const setTime = useTimerStore((state) => state.setTime)
+    const { setTime, isRunning, startTimer, pauseTimer, resetTimer } =
+      useTimerStore((state) => state)
+    const { showNotification } = useNotificationStore.getState()
 
     return (
       <motion.div
@@ -28,23 +32,45 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
           <motion.div className='flex flex-row justify-center items-center'>
             <Timer className='cursor-pointer mr-2' size={28} />
             <motion.p className='font-bold text-lg leading-none'>
-              Timer (Minute:Second)
+              Timer
             </motion.p>
           </motion.div>
           <X className='cursor-pointer' size={28} onClick={props.closeTab} />
         </motion.div>
-        <Countdown />
+        <motion.div className='flex justify-around items-center'>
+          {isRunning ? (
+            <Pause
+              className='cursor-pointer'
+              size={40}
+              onClick={() => pauseTimer()}
+            />
+          ) : (
+            <Play
+              className='cursor-pointer'
+              size={40}
+              onClick={() => startTimer()}
+            />
+          )}
+          <Countdown />
+          <RotateCcw
+            className={`${isRunning ? 'cursor-not-allowed text-muted-foreground' : 'cursor-pointer'}`}
+            size={40}
+            onClick={() => !isRunning && resetTimer()}
+          />
+        </motion.div>
         <TimeInput />
         <motion.div className='flex flex-col justify-center items-start'>
           <motion.div className='h-4' />
           <motion.p className='mb-4'>Or quick choose:</motion.p>
           <motion.div className='flex flex-wrap w-full justify-start items-start gap-4'>
-            {listQuickTimers.map((t) => {
+            {listQuickTimers.map((t: IQuickTimer, i: number) => {
               return (
                 <Button
+                  key={i}
                   size='lg'
                   onClick={() => {
                     setTime(t.time)
+                    showNotification({ description: `Timer set for ${t.text}` })
                   }}
                 >
                   {t.text}
