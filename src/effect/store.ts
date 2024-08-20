@@ -5,11 +5,11 @@ import useNotificationStore from '@/notification/store.ts'
 
 const MAX_ADDED_EFFECTS = 3
 
-const useEffectStore = create<IEffectStore>((set) => ({
+const useEffectStore = create<IEffectStore>((set, get) => ({
   effects: listEffects,
 
   toggleEffect: async (id: string) => {
-    const effect = useEffectStore.getState().effects.find((e) => e.id === id)
+    const effect = get().effects.find((e) => e.id === id)
     if (!effect) return
 
     const modificationEffect = { ...effect }
@@ -61,7 +61,7 @@ const useEffectStore = create<IEffectStore>((set) => ({
   },
 
   changeVolumeValue: (id: string, value: number) => {
-    const effect = useEffectStore.getState().effects.find((e) => e.id === id)
+    const effect = get().effects.find((e) => e.id === id)
     if (!effect || !effect.audio || !effect.volumeControl) return
 
     const modificationEffect = { ...effect }
@@ -75,7 +75,7 @@ const useEffectStore = create<IEffectStore>((set) => ({
   },
 
   toggleMute: (id: string) => {
-    const effect = useEffectStore.getState().effects.find((e) => e.id === id)
+    const effect = get().effects.find((e) => e.id === id)
     if (!effect || !effect.audio || !effect.volumeControl) return
 
     const modificationEffect = { ...effect }

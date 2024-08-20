@@ -33,17 +33,17 @@ const EffectPreview = (props: IEffectPreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-4 glassmorphism p-4'
+      className='col-span-6 md:col-span-3 glassmorphism p-4'
     >
       <motion.div className='flex justify-end items-center'>
         <Settings2 className='cursor-pointer' size={28} onClick={handleClick} />
       </motion.div>
       {added.length === 0 ? (
-        <motion.div className='flex h-24 items-center justify-center'>
-          NO EFFECT
+        <motion.div className='flex h-24 items-center justify-center text-muted-foreground'>
+          No effects applied
         </motion.div>
       ) : (
-        <motion.div className='flex flex-col p-4'>
+        <motion.div className='flex flex-col py-4 pl-2 pr-4'>
           {added.map((e) => (
             <EffectItem
               key={e.id}

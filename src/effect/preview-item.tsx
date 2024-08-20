@@ -16,6 +16,7 @@ const EffectItem = React.memo((props: IEffectItemProps) => {
   return (
     <motion.div className='flex w-full py-4 items-center justify-center'>
       <IconComponent
+        size={28}
         strokeWidth={1}
         className='mr-1 cursor-pointer'
         onClick={props.onToggleMute}
