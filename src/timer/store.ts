@@ -29,9 +29,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
         })
 
         const audioCtx = new window.AudioContext()
-        const soundSrc = await import(
-          /* @vite-ignore */ `../assets/effects/ding.mp3`
-        )
+        const soundSrc = await import(/* @vite-ignore */ `/effects/ding.mp3`)
         const response = await fetch(soundSrc.default)
         const arrayBuffer = await response.arrayBuffer()
         const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)

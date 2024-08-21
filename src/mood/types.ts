@@ -7,6 +7,10 @@ export interface IMoodStore {
   moods: IMood[]
   currentMood: IMood
   switchMood: (id: string) => void
+  volume: number
+  mutedVolume: number
+  audio?: MediaElementAudioSourceNode
+  volumeControl?: GainNode
 }
 
 export interface IMood {
@@ -15,6 +19,7 @@ export interface IMood {
   thumbnail: string
   background: string
   effects: IMoodEffect[]
+  url: string
 }
 
 export interface IMoodEffect {

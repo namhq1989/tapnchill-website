@@ -24,7 +24,7 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row'>
             <Settings2 className='cursor-pointer mr-2' size={28} />
-            <motion.p className='font-bold text-lg'>Effects</motion.p>
+            <motion.p className='font-bold text-xl'>Effects</motion.p>
           </motion.div>
           <X className='cursor-pointer' size={28} onClick={props.closeTab} />
         </motion.div>

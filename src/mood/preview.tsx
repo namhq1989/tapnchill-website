@@ -109,7 +109,6 @@ const MoodPreview = (props: IMoodPreviewProps) => {
 }
 
 const formatListeningTime = (seconds: number): string => {
-  console.log('seconds', seconds)
   const days = Math.floor(seconds / (24 * 60 * 60))
   seconds %= 24 * 60 * 60
 

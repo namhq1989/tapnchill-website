@@ -12,7 +12,7 @@ interface IMoodContentProps {
 
 const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
   (props, ref) => {
-    const { moods } = useMoodStore((state) => state)
+    const { currentMood, moods, switchMood } = useMoodStore((state) => state)
     return (
       <motion.div
         ref={ref}
@@ -23,13 +23,23 @@ const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row'>
             <RadioTower className='cursor-pointer mr-2' size={28} />
-            <motion.p className='font-bold text-lg'>Radio</motion.p>
+            <motion.p className='font-bold text-xl'>Radio</motion.p>
           </motion.div>
           <X className='cursor-pointer' size={28} onClick={props.closeTab} />
         </motion.div>
+        <motion.p className='font-bold text-lg'>Stations</motion.p>
         <motion.div className='flex flex-col'>
           {moods.map((mood) => {
-            return <MoodItem key={mood.id} mood={mood} />
+            return (
+              <MoodItem
+                key={mood.id}
+                mood={mood}
+                isCurrentMood={currentMood.id === mood.id}
+                onSwitchMood={(id: string) => {
+                  switchMood(id)
+                }}
+              />
+            )
           })}
         </motion.div>
       </motion.div>

@@ -31,9 +31,7 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row justify-center items-center'>
             <Timer className='cursor-pointer mr-2' size={28} />
-            <motion.p className='font-bold text-lg leading-none'>
-              Timer
-            </motion.p>
+            <motion.p className='font-bold text-xl'>Timer</motion.p>
           </motion.div>
           <X className='cursor-pointer' size={28} onClick={props.closeTab} />
         </motion.div>

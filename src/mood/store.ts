@@ -8,7 +8,9 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
   isListening: false,
   listeningSeconds: 0,
   intervalId: null,
-  toggleIsListening: () => {
+  volume: 100,
+  mutedVolume: 0,
+  toggleIsListening: async () => {
     const { isListening } = get()
 
     if (!isListening) {
@@ -18,10 +20,39 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
           listeningSeconds: listeningSeconds + 1,
         })
       }, 1000)
-      set({ isListening: true, intervalId })
+
+      // play audio
+      const audioCtx = new window.AudioContext()
+      const audioElement = new Audio(get().currentMood.url)
+      audioElement.crossOrigin = 'anonymous'
+      const audio = audioCtx.createMediaElementSource(audioElement)
+
+      const volumeControl = audioCtx.createGain()
+      volumeControl.gain.value = 1
+
+      audio.connect(volumeControl)
+      volumeControl.connect(audioCtx.destination)
+      audioElement.play().then()
+
+      if (audioCtx.state === 'suspended') {
+        await audioCtx.resume()
+      }
+
+      set({ isListening: true, intervalId, audio, volumeControl })
     } else {
-      clearInterval(get().intervalId as number | NodeJS.Timeout)
-      set({ isListening: false, intervalId: null })
+      const { intervalId, audio } = get()
+      clearInterval(intervalId as number | NodeJS.Timeout)
+
+      if (audio) {
+        audio.disconnect()
+      }
+
+      set({
+        isListening: false,
+        intervalId: null,
+        audio: undefined,
+        volumeControl: undefined,
+      })
     }
   },
   moods: listMoods,
@@ -35,11 +66,18 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       })
       return
     }
+
+    const { audio } = get()
+    if (audio) {
+      audio.disconnect()
+    }
+
     set({
       currentMood: mood,
       listeningSeconds: 0,
       isListening: false,
       intervalId: null,
+      audio: undefined,
     })
     get().toggleIsListening()
   },

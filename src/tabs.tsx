@@ -71,16 +71,6 @@ const Tabs = (props: ITabsProps) => {
             onClick={() => openTab(tabsConfig.tabIds.timer)}
           />
         )}
-        <motion.div
-          layoutId='div-5'
-          className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
-          onClick={() => openTab('div-5')}
-        ></motion.div>
-        <motion.div
-          layoutId='div-6'
-          className='col-span-6 md:col-span-2 h-[250px] glassmorphism'
-          onClick={() => openTab('div-6')}
-        ></motion.div>
       </motion.div>
 
       <AnimatePresence mode='popLayout'>
@@ -96,30 +86,6 @@ const Tabs = (props: ITabsProps) => {
       <AnimatePresence mode='popLayout'>
         {tabOpenedId == tabsConfig.tabIds.timer && (
           <TimerContent closeTab={closeTab} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-5' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-5'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-6' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-6'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>

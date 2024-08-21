@@ -16,6 +16,7 @@ const listMoods: IMood[] = [
         volume: 60,
       },
     ],
+    url: 'http://localhost:8080/relaxing',
   },
   {
     id: 'driving',
@@ -28,6 +29,7 @@ const listMoods: IMood[] = [
         volume: 100,
       },
     ],
+    url: 'http://localhost:8080/driving',
   },
 ]
 
