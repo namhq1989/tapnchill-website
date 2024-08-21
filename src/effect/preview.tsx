@@ -26,17 +26,17 @@ const EffectPreview = (props: IEffectPreviewProps) => {
     toggleMute(id)
   }
 
-  const handleClick = useCallback(() => {
-    props.onClick()
-  }, [props])
-
   return (
     <motion.div
       layoutId={props.tabId}
       className='col-span-6 md:col-span-3 min-h-[170px] glassmorphism p-4'
     >
       <motion.div className='flex justify-end items-center'>
-        <Settings2 className='cursor-pointer' size={28} onClick={handleClick} />
+        <Settings2
+          className='cursor-pointer'
+          size={28}
+          onClick={props.onClick}
+        />
       </motion.div>
       {added.length === 0 ? (
         <motion.div className='flex h-24 items-center justify-center text-muted-foreground'>

@@ -19,12 +19,16 @@ const COLORS = [
 
 const MoodPreview = (props: IMoodPreviewProps) => {
   const [iconRef, iconAnimate] = useAnimate()
-  const { isBroadcasting, toggleIsBroadcasting } = useMoodStore(
-    (state) => state,
-  )
+  const {
+    userStatus,
+    currentMood,
+    isListening,
+    listeningSeconds,
+    toggleIsListening,
+  } = useMoodStore((state) => state)
 
   useEffect(() => {
-    if (isBroadcasting) {
+    if (isListening) {
       iconAnimate(
         iconRef.current,
         {
@@ -49,7 +53,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
         },
       )
     }
-  }, [iconAnimate, iconRef, isBroadcasting])
+  }, [iconAnimate, iconRef, isListening])
 
   return (
     <motion.div
@@ -60,7 +64,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
         <Power
           className='cursor-pointer text-white'
           size={28}
-          onClick={toggleIsBroadcasting}
+          onClick={toggleIsListening}
         />
         {/*<motion.div className='flex flex-row justify-center items-center'>*/}
         {/*  <AlarmClockCheck className='text-white' size={24} />*/}
@@ -71,14 +75,24 @@ const MoodPreview = (props: IMoodPreviewProps) => {
           ref={iconRef}
           className='cursor-pointer text-white'
           size={28}
+          onClick={props.onClick}
         />
       </motion.div>
       <motion.div className='flex flex-col justify-center items-start mt-4'>
-        <motion.p className='text-2xl text-white font-bold'>
-          [25m] Driving
-        </motion.p>
+        <motion.div className='flex flex-row items-center'>
+          {isListening ? (
+            <motion.p className='text-lg text-white font-bold mr-1'>
+              [{formatListeningTime(listeningSeconds)}]
+            </motion.p>
+          ) : null}
+          <motion.p className='text-2xl text-white font-bold'>
+            {currentMood.name}
+          </motion.p>
+        </motion.div>
         <motion.p className='text-sm text-muted'>
-          Drive through the rhythm of the road
+          {userStatus
+            ? userStatus
+            : 'Feeling good, or is it one of those days?'}
         </motion.p>
         <div className='h-8' />
         <motion.p className='text-white font-bold'>
@@ -92,6 +106,28 @@ const MoodPreview = (props: IMoodPreviewProps) => {
       </motion.div>
     </motion.div>
   )
+}
+
+const formatListeningTime = (seconds: number): string => {
+  console.log('seconds', seconds)
+  const days = Math.floor(seconds / (24 * 60 * 60))
+  seconds %= 24 * 60 * 60
+
+  const hours = Math.floor(seconds / (60 * 60))
+  seconds %= 60 * 60
+
+  const minutes = Math.floor(seconds / 60)
+
+  const parts = []
+  if (days > 0) parts.push(`${String(days).padStart(2, '0')}d`)
+  if (hours > 0) parts.push(`${String(hours).padStart(2, '0')}h`)
+  if (minutes > 0) {
+    parts.push(`${String(minutes).padStart(2, '0')}m`)
+  } else if (parts.length === 0) {
+    parts.push('01m')
+  }
+
+  return parts.join('')
 }
 
 export default React.memo(MoodPreview)

@@ -8,6 +8,7 @@ import TimerContent from '@/timer/content.tsx'
 import CalendarPreview from '@/calendar/preview.tsx'
 import AudiencePreview from '@/audience/preview.tsx'
 import MoodPreview from '@/mood/preview.tsx'
+import MoodContent from '@/mood/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -83,27 +84,8 @@ const Tabs = (props: ITabsProps) => {
       </motion.div>
 
       <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-1' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-1'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-2' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-2'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
+        {tabOpenedId == tabsConfig.tabIds.mood && (
+          <MoodContent closeTab={closeTab} />
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>

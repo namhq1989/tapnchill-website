@@ -3,7 +3,7 @@ import tabsConfig from '@/tabs-config.ts'
 import { Settings2, X } from 'lucide-react'
 import useEffectStore from '@/effect/store.ts'
 import React from 'react'
-import ContentItem from '@/effect/content-item.tsx'
+import EffectItem from '@/effect/effect-item.tsx'
 import animateConfig from '@/animate-config.ts'
 
 interface IEffectContentProps {
@@ -31,7 +31,7 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
         <motion.div className='grid grid-cols-3 gap-4'>
           {effects.map((effect) => {
             return (
-              <ContentItem
+              <EffectItem
                 key={effect.id}
                 effect={effect}
                 toggleIsAdded={() => {
