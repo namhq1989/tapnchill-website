@@ -30,7 +30,7 @@ const Tabs = (props: ITabsProps) => {
   return (
     <motion.div
       initial={false}
-      animate={props.isMenuOpened ? { opacity: 1 } : { opacity: 0 }}
+      animate={{ opacity: props.isMenuOpened ? 1 : 0 }}
       transition={{
         duration: 0.2,
         ease: 'easeInOut',

@@ -73,8 +73,12 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       audio.disconnect()
     }
 
-    const { removeAllEffects } = useEffectStore.getState()
+    const { removeAllEffects, toggleEffect } = useEffectStore.getState()
     removeAllEffects()
+
+    for (const effect of mood.effects) {
+      toggleEffect(effect.id)
+    }
 
     set({
       currentMood: mood,

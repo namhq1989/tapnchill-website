@@ -1,24 +1,15 @@
-import React, { useEffect } from 'react'
-import { motion, useAnimate } from 'framer-motion'
-import { Power, RadioTower } from 'lucide-react'
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Power } from 'lucide-react'
 import useMoodStore from '@/mood/store.ts'
+import GradientRadio from '@/mood/gradient-radio.tsx'
 
 interface IMoodPreviewProps {
   tabId: string
   onClick: () => void
 }
 
-const COLORS = [
-  '#FF5733',
-  '#FFBD33',
-  '#33FF57',
-  '#33FFBD',
-  '#3357FF',
-  '#A133FF',
-]
-
 const MoodPreview = (props: IMoodPreviewProps) => {
-  const [iconRef, iconAnimate] = useAnimate()
   const {
     userStatus,
     currentMood,
@@ -26,34 +17,6 @@ const MoodPreview = (props: IMoodPreviewProps) => {
     listeningSeconds,
     toggleIsListening,
   } = useMoodStore((state) => state)
-
-  useEffect(() => {
-    if (isListening) {
-      iconAnimate(
-        iconRef.current,
-        {
-          opacity: [1, 0.5, 1, 0.5, 1, 0.5],
-          color: COLORS,
-        },
-        {
-          repeat: Infinity,
-          ease: 'easeInOut',
-          duration: 3,
-        },
-      )
-    } else {
-      iconAnimate(
-        iconRef.current,
-        {
-          opacity: 0.3,
-          color: '#FFFFFF',
-        },
-        {
-          repeat: 0,
-        },
-      )
-    }
-  }, [iconAnimate, iconRef, isListening])
 
   return (
     <motion.div
@@ -71,12 +34,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
         {/*  <div className='w-2' />*/}
         {/*  <motion.p className='text-lg text-white'>23:00</motion.p>*/}
         {/*</motion.div>*/}
-        <RadioTower
-          ref={iconRef}
-          className='cursor-pointer text-white'
-          size={28}
-          onClick={props.onClick}
-        />
+        <GradientRadio onClick={props.onClick} />
       </motion.div>
       <motion.div className='flex flex-col justify-center items-start mt-4'>
         <motion.div className='flex flex-row items-center'>

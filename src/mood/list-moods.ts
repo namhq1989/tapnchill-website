@@ -9,7 +9,7 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'coffee-shop',
-        volume: 100,
+        volume: 50,
       },
       {
         id: 'bird',
@@ -26,7 +26,7 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'driving',
-        volume: 100,
+        volume: 50,
       },
     ],
     url: 'http://localhost:8080/driving',
@@ -39,7 +39,7 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'sea',
-        volume: 100,
+        volume: 50,
       },
     ],
     url: 'http://localhost:8080/driving',
@@ -52,11 +52,11 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'crackling-fire',
-        volume: 100,
+        volume: 50,
       },
       {
         id: 'rain',
-        volume: 100,
+        volume: 50,
       },
     ],
     url: 'http://localhost:8080/driving',
@@ -69,11 +69,11 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'water',
-        volume: 100,
+        volume: 50,
       },
       {
         id: 'cricket',
-        volume: 100,
+        volume: 50,
       },
     ],
     url: 'http://localhost:8080/driving',
