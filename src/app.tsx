@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { Toaster } from '@/components/ui/toaster.tsx'
 import IsListeningButton from '@/is-listening-button.tsx'
 import useMoodStore from '@/mood/store.ts'
+import MaximizeButton from '@/maximize-button.tsx'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -24,6 +25,8 @@ const App = () => {
         <motion.div className='flex flex-row gap-4'>
           <MenuButton onTap={(value: boolean) => setIsMenuOpened(value)} />
           <IsListeningButton isContentOpening={isMenuOpened} />
+          <div className='flex-grow' />
+          <MaximizeButton />
         </motion.div>
         <Tabs isMenuOpened={isMenuOpened} />
       </motion.div>
