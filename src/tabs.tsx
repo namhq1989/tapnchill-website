@@ -7,6 +7,8 @@ import TimerPreview from '@/timer/preview.tsx'
 import TimerContent from '@/timer/content.tsx'
 import CalendarPreview from '@/calendar/preview.tsx'
 import AudiencePreview from '@/audience/preview.tsx'
+import MoodPreview from '@/mood/preview.tsx'
+import MoodContent from '@/mood/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -28,7 +30,7 @@ const Tabs = (props: ITabsProps) => {
   return (
     <motion.div
       initial={false}
-      animate={props.isMenuOpened ? { opacity: 1 } : { opacity: 0 }}
+      animate={{ opacity: props.isMenuOpened ? 1 : 0 }}
       transition={{
         duration: 0.2,
         ease: 'easeInOut',
@@ -39,6 +41,12 @@ const Tabs = (props: ITabsProps) => {
         onClick={closeTab}
       ></motion.div>
       <motion.div className='grid grid-cols-6 gap-4 auto-rows-min w-[500px] max-w-full'>
+        {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.mood && (
+          <MoodPreview
+            tabId={tabsConfig.tabIds.mood}
+            onClick={() => openTab(tabsConfig.tabIds.mood)}
+          />
+        )}
         {props.isMenuOpened && tabOpenedId !== tabsConfig.tabIds.audience && (
           <AudiencePreview
             tabId={tabsConfig.tabIds.audience}
@@ -63,40 +71,11 @@ const Tabs = (props: ITabsProps) => {
             onClick={() => openTab(tabsConfig.tabIds.timer)}
           />
         )}
-        <motion.div
-          layoutId='div-5'
-          className='col-span-6 md:col-span-4 h-[250px] glassmorphism'
-          onClick={() => openTab('div-5')}
-        ></motion.div>
-        <motion.div
-          layoutId='div-6'
-          className='col-span-6 md:col-span-2 h-[250px] glassmorphism'
-          onClick={() => openTab('div-6')}
-        ></motion.div>
       </motion.div>
 
       <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-1' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-1'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-2' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-2'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
+        {tabOpenedId == tabsConfig.tabIds.mood && (
+          <MoodContent closeTab={closeTab} />
         )}
       </AnimatePresence>
       <AnimatePresence mode='popLayout'>
@@ -107,30 +86,6 @@ const Tabs = (props: ITabsProps) => {
       <AnimatePresence mode='popLayout'>
         {tabOpenedId == tabsConfig.tabIds.timer && (
           <TimerContent closeTab={closeTab} />
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-5' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-5'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence mode='popLayout'>
-        {tabOpenedId == 'div-6' && (
-          <motion.div
-            className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full glassmorphism z-10'
-            layoutId='div-6'
-            onClick={closeTab}
-          >
-            <motion.h3>OPENED CARD</motion.h3>
-            <motion.div className='w-full h-[300px] bg-red-400'></motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>

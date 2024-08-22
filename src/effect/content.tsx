@@ -3,7 +3,7 @@ import tabsConfig from '@/tabs-config.ts'
 import { Settings2, X } from 'lucide-react'
 import useEffectStore from '@/effect/store.ts'
 import React from 'react'
-import ContentItem from '@/effect/content-item.tsx'
+import EffectItem from '@/effect/effect-item.tsx'
 import animateConfig from '@/animate-config.ts'
 
 interface IEffectContentProps {
@@ -24,14 +24,14 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row'>
             <Settings2 className='cursor-pointer mr-2' size={28} />
-            <motion.p className='font-bold text-lg'>Effects</motion.p>
+            <motion.p className='font-bold text-xl'>Effects</motion.p>
           </motion.div>
           <X className='cursor-pointer' size={28} onClick={props.closeTab} />
         </motion.div>
         <motion.div className='grid grid-cols-3 gap-4'>
           {effects.map((effect) => {
             return (
-              <ContentItem
+              <EffectItem
                 key={effect.id}
                 effect={effect}
                 toggleIsAdded={() => {

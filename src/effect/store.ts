@@ -8,6 +8,25 @@ const MAX_ADDED_EFFECTS = 3
 const useEffectStore = create<IEffectStore>((set, get) => ({
   effects: listEffects,
 
+  getEffectById: (id: string) => {
+    return get().effects.find((e) => e.id === id)
+  },
+
+  removeAllEffects: () => {
+    const runningEffects = get().effects.filter((e) => e.isAdded)
+
+    for (const effect of runningEffects) {
+      effect.audio!.stop()
+      effect.audio = undefined
+      effect.volumeControl = undefined
+      effect.isAdded = false
+    }
+
+    set((state) => ({
+      effects: [...state.effects, ...runningEffects],
+    }))
+  },
+
   toggleEffect: async (id: string) => {
     const effect = get().effects.find((e) => e.id === id)
     if (!effect) return
@@ -31,7 +50,7 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       const audioCtx = new window.AudioContext()
 
       const soundSrc = await import(
-        /* @vite-ignore */ `../assets/effects/${modificationEffect.file}`
+        /* @vite-ignore */ `/effects/${modificationEffect.file}`
       )
       const response = await fetch(soundSrc.default)
       const arrayBuffer = await response.arrayBuffer()

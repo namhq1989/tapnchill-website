@@ -8,9 +8,9 @@ import useTimerStore from '@/timer/store.ts'
 
 const TimeInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [time, setTime] = useState('15:00')
+  const [inputTime, setInputTime] = useState('15:00')
   const [cursorPosition, setCursorPosition] = useState(0)
-  const setStoreTime = useTimerStore((state) => state.setTime)
+  const { isRunning, setTime } = useTimerStore((state) => state)
   const { showNotification, showErrorNotification } =
     useNotificationStore.getState()
 
@@ -36,7 +36,7 @@ const TimeInput = () => {
       }
 
       const mask = IMask(inputRef.current, maskOptions)
-      mask.value = time
+      mask.value = inputTime
 
       mask.on('accept', () => {
         const [minutes, seconds] = mask.value.split(':').map(Number)
@@ -44,9 +44,9 @@ const TimeInput = () => {
         const currentCursorPosition = inputRef.current!.selectionStart || 0
 
         if (minutes > 59 || seconds > 59) {
-          mask.value = time
+          mask.value = inputTime
         } else {
-          setTime(mask.value)
+          setInputTime(mask.value)
         }
 
         setCursorPosition(currentCursorPosition)
@@ -59,7 +59,7 @@ const TimeInput = () => {
         mask.destroy()
       }
     }
-  }, [time, cursorPosition])
+  }, [inputTime, cursorPosition])
 
   return (
     <motion.div className='flex items-center justify-between w-full max-w-full py-4 px-0 mt-12'>
@@ -67,8 +67,9 @@ const TimeInput = () => {
         type='text'
         id='timeInput'
         ref={inputRef}
-        defaultValue={time}
+        defaultValue={inputTime}
         placeholder='15:00'
+        disabled={isRunning}
         className='text-center w-full max-w-xs text-lg glassmorphism-select'
         onClick={() => setCursorPosition(inputRef.current!.selectionStart || 0)}
       />
@@ -76,17 +77,18 @@ const TimeInput = () => {
       <Button
         size='lg'
         className='flex-shrink-0'
+        disabled={isRunning}
         onClick={() => {
-          if (!validateTime(time)) {
+          if (!validateTime(inputTime)) {
             showErrorNotification({
               description: 'The time must be between 1 second and 60 minutes',
             })
             return
           }
 
-          const seconds = convertTimeToSeconds(time)
-          showNotification({ description: `Timer set for ${time}` })
-          setStoreTime(seconds)
+          const seconds = convertTimeToSeconds(inputTime)
+          showNotification({ description: `Timer set for ${inputTime}` })
+          setTime(seconds)
         }}
       >
         Set
