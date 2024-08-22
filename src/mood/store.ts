@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { IMoodStore } from '@/mood/types.ts'
 import listMoods from '@/mood/list-moods.ts'
 import useNotificationStore from '@/notification/store.ts'
+import useEffectStore from '@/effect/store.ts'
 
 const useMoodStore = create<IMoodStore>((set, get) => ({
   userStatus: '',
@@ -71,6 +72,9 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
     if (audio) {
       audio.disconnect()
     }
+
+    const { removeAllEffects } = useEffectStore.getState()
+    removeAllEffects()
 
     set({
       currentMood: mood,

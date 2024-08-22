@@ -31,6 +31,53 @@ const listMoods: IMood[] = [
     ],
     url: 'http://localhost:8080/driving',
   },
+  {
+    id: 'beach',
+    name: 'At the beach',
+    thumbnail: 'beach.png',
+    background: 'beach.mp4',
+    effects: [
+      {
+        id: 'sea',
+        volume: 100,
+      },
+    ],
+    url: 'http://localhost:8080/driving',
+  },
+  {
+    id: 'cozy-room',
+    name: 'Cozy room',
+    thumbnail: 'cozy-room.png',
+    background: 'cozy-room.mp4',
+    effects: [
+      {
+        id: 'crackling-fire',
+        volume: 100,
+      },
+      {
+        id: 'rain',
+        volume: 100,
+      },
+    ],
+    url: 'http://localhost:8080/driving',
+  },
+  {
+    id: 'forest-night',
+    name: 'Forest night',
+    thumbnail: 'forest-night.png',
+    background: 'forest-night.mp4',
+    effects: [
+      {
+        id: 'water',
+        volume: 100,
+      },
+      {
+        id: 'cricket',
+        volume: 100,
+      },
+    ],
+    url: 'http://localhost:8080/driving',
+  },
 ]
 
 export default listMoods
