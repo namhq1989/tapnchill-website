@@ -34,7 +34,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
         {/*  <div className='w-2' />*/}
         {/*  <motion.p className='text-lg text-white'>23:00</motion.p>*/}
         {/*</motion.div>*/}
-        <GradientRadio onClick={props.onClick} />
+        <GradientRadio componentKey='mood' onClick={props.onClick} />
       </motion.div>
       <motion.div className='flex flex-col justify-center items-start mt-4'>
         <motion.div className='flex flex-row items-center'>

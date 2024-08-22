@@ -6,6 +6,7 @@ export interface IMoodStore {
   toggleIsListening: () => void
   moods: IMood[]
   currentMood: IMood
+  initMood: () => void
   switchMood: (id: string) => void
   volume: number
   mutedVolume: number

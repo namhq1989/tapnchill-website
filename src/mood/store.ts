@@ -58,7 +58,28 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
   },
   moods: listMoods,
   currentMood: listMoods[0],
-  switchMood: (id: string) => {
+  initMood: async () => {
+    const moodId = localStorage.getItem('current_mood')
+    if (moodId) {
+      const mood = get().moods.find((m) => m.id === moodId)
+      if (!mood) {
+        const { showErrorNotification } = useNotificationStore.getState()
+        showErrorNotification({
+          description: 'Mood not found',
+        })
+        return
+      }
+
+      set({
+        currentMood: mood,
+        listeningSeconds: 0,
+        isListening: false,
+        intervalId: null,
+        audio: undefined,
+      })
+    }
+  },
+  switchMood: async (id: string) => {
     const mood = get().moods.find((m) => m.id === id)
     if (!mood) {
       const { showErrorNotification } = useNotificationStore.getState()
@@ -73,11 +94,13 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       audio.disconnect()
     }
 
-    const { removeAllEffects, toggleEffect } = useEffectStore.getState()
+    const { removeAllEffects, toggleEffect, changeVolumeValue } =
+      useEffectStore.getState()
     removeAllEffects()
 
     for (const effect of mood.effects) {
-      toggleEffect(effect.id)
+      await toggleEffect(effect.id)
+      changeVolumeValue(effect.id, effect.volume)
     }
 
     set({
@@ -88,6 +111,7 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       audio: undefined,
     })
     get().toggleIsListening()
+    localStorage.setItem('current_mood', id)
   },
 }))
 

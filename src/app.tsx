@@ -2,13 +2,19 @@ import '@/assets/stylesheet/bg.css'
 import Background from '@/bg.tsx'
 import Tabs from '@/tabs.tsx'
 import MenuButton from '@/menu-button.tsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Toaster } from '@/components/ui/toaster.tsx'
 import IsListeningButton from '@/is-listening-button.tsx'
+import useMoodStore from '@/mood/store.ts'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const initMood = useMoodStore((state) => state.initMood)
+
+  useEffect(() => {
+    initMood()
+  }, [initMood])
 
   return (
     <motion.div id='app-bg'>

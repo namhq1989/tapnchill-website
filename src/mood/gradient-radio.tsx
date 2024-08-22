@@ -13,6 +13,7 @@ const COLORS = [
 ]
 
 interface IGradientRadioProps {
+  componentKey: string
   onClick: () => void
 }
 
@@ -50,6 +51,7 @@ const GradientRadio = (props: IGradientRadioProps) => {
 
   return (
     <RadioTower
+      key={props.componentKey}
       ref={iconRef}
       className='cursor-pointer text-white'
       size={28}

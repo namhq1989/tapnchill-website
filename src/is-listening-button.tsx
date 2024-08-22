@@ -8,19 +8,16 @@ interface IListeningButton {
 
 const IsListeningButton = (props: IListeningButton) => {
   const isListening = useMoodStore((state) => state.isListening)
-
-  if (props.isContentOpening || !isListening) {
-    return null
-  }
-
+  console.log('isListening', isListening)
   return (
-    <motion.button
+    <motion.div
       initial={false}
-      animate={{ opacity: isListening ? 1 : 0 }}
+      animate={{ opacity: props.isContentOpening || !isListening ? 0 : 1 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
       className='flex h-16 w-16 items-center justify-center glassmorphism-mood !rounded-full transition-colors'
     >
-      <GradientRadio onClick={() => {}} />
-    </motion.button>
+      <GradientRadio componentKey='status' onClick={() => {}} />
+    </motion.div>
   )
 }
 
