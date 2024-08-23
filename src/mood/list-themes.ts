@@ -1,6 +1,8 @@
-import { IMood } from '@/mood/types.ts'
+import { ITheme } from '@/mood/types.ts'
 
-const listMoods: IMood[] = [
+const DEFAULT_VOLUME_VALUE = 50
+
+const listThemes: ITheme[] = [
   {
     id: 'coffee-shop',
     name: 'Coffee shop',
@@ -9,14 +11,13 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'coffee-shop',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
       {
         id: 'bird',
-        volume: 60,
+        volume: DEFAULT_VOLUME_VALUE,
       },
     ],
-    url: 'http://localhost:8080/relaxing',
   },
   {
     id: 'driving',
@@ -26,10 +27,9 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'driving',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
     ],
-    url: 'http://localhost:8080/driving',
   },
   {
     id: 'beach',
@@ -39,10 +39,9 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'sea',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
     ],
-    url: 'http://localhost:8080/driving',
   },
   {
     id: 'cozy-room',
@@ -52,14 +51,13 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'crackling-fire',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
       {
         id: 'rain',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
     ],
-    url: 'http://localhost:8080/driving',
   },
   {
     id: 'forest-night',
@@ -69,15 +67,14 @@ const listMoods: IMood[] = [
     effects: [
       {
         id: 'water',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
       {
         id: 'cricket',
-        volume: 50,
+        volume: DEFAULT_VOLUME_VALUE,
       },
     ],
-    url: 'http://localhost:8080/driving',
   },
 ]
 
-export default listMoods
+export default listThemes

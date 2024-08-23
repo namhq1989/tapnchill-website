@@ -4,7 +4,8 @@ import tabsConfig from '@/tabs-config.ts'
 import animateConfig from '@/animate-config.ts'
 import { RadioTower, X } from 'lucide-react'
 import useMoodStore from '@/mood/store.ts'
-import MoodItem from '@/mood/mood-item.tsx'
+import ThemeItem from '@/mood/theme-item.tsx'
+import StationItem from '@/mood/station-item.tsx'
 
 interface IMoodContentProps {
   closeTab: () => void
@@ -12,7 +13,14 @@ interface IMoodContentProps {
 
 const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
   (props, ref) => {
-    const { currentMood, moods, switchMood } = useMoodStore((state) => state)
+    const {
+      currentStation,
+      stations,
+      switchStation,
+      currentTheme,
+      themes,
+      switchTheme,
+    } = useMoodStore((state) => state)
     return (
       <motion.div
         ref={ref}
@@ -29,14 +37,29 @@ const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
         </motion.div>
         <motion.p className='font-bold text-lg'>Stations</motion.p>
         <motion.div className='flex flex-col'>
-          {moods.map((mood) => {
+          {stations.map((station) => {
             return (
-              <MoodItem
-                key={mood.id}
-                mood={mood}
-                isCurrentMood={currentMood.id === mood.id}
-                onSwitchMood={(id: string) => {
-                  switchMood(id)
+              <StationItem
+                key={station.id}
+                station={station}
+                isCurrentStation={currentStation?.id === station.id}
+                onSwitchStation={(id: string) => {
+                  switchStation(id)
+                }}
+              />
+            )
+          })}
+        </motion.div>
+        <motion.p className='font-bold text-lg'>Themes</motion.p>
+        <motion.div className='flex flex-col'>
+          {themes.map((theme) => {
+            return (
+              <ThemeItem
+                key={theme.id}
+                theme={theme}
+                isCurrentTheme={currentTheme.id === theme.id}
+                onSwitchTheme={(id: string) => {
+                  switchTheme(id)
                 }}
               />
             )
