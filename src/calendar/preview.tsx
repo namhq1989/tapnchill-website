@@ -25,7 +25,7 @@ const CalendarPreview = (props: ICalendarPreviewProps) => {
   const renderDate = (date: Date, isToday = false) => (
     <motion.div
       key={date.toISOString()}
-      className={`flex flex-col items-center ${isToday ? 'bg-primary text-white px-4 py-2' : 'p-2'} rounded-xl`}
+      className={`flex flex-col items-center ${isToday ? 'bg-primary text-white px-4 py-2' : 'p-2'} rounded-3xl`}
     >
       <motion.div className={isToday ? 'font-bold' : ''}>
         {date.getDate()}

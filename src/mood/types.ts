@@ -21,6 +21,8 @@ export interface IStation {
   id: string
   name: string
   streamingUrl: string
+  listeners: number
+  thumbnail: string
 }
 
 export interface ITheme {

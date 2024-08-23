@@ -142,19 +142,19 @@ body {
 }
 
 .glassmorphism {
-  @apply rounded-xl backdrop-blur-[5px] bg-white/65 shadow-lg ring-1 ring-black/5;
+  @apply rounded-3xl backdrop-blur-[5px] bg-white/65 shadow-lg ring-1 ring-black/5;
 }
 
 .glassmorphism-mood {
-  @apply rounded-xl backdrop-blur-[5px] bg-black/65 shadow-lg ring-1 ring-black/5;
+  @apply rounded-3xl backdrop-blur-[5px] bg-black/65 shadow-lg ring-1 ring-black/5;
 }
 
 .glassmorphism-select {
-  @apply rounded-xl backdrop-blur-[5px] bg-white/20 shadow-lg ring-1 ring-black/5;
+  @apply rounded-3xl backdrop-blur-[5px] bg-white/20 shadow-lg ring-1 ring-black/5;
 }
 
 .glassmorphism-parent {
-  @apply rounded-xl before:backdrop-blur-md before:backdrop-hack bg-white/65 shadow-lg ring-1 ring-black/5;
+  @apply rounded-3xl before:backdrop-blur-md before:backdrop-hack bg-white/65 shadow-lg ring-1 ring-black/5;
 }
 
 .overlay {
