@@ -8,7 +8,6 @@ interface IListeningButton {
 
 const IsListeningButton = (props: IListeningButton) => {
   const isListening = useMoodStore((state) => state.isListening)
-  console.log('isListening', isListening)
   return (
     <motion.div
       initial={false}

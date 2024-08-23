@@ -2,7 +2,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import tabsConfig from '@/tabs-config.ts'
 import { Pause, Play, RotateCcw, Timer, X } from 'lucide-react'
-import animateConfig from '@/animate-config.ts'
 import Countdown from '@/timer/countdown.tsx'
 import TimeInput from '@/timer/time-input.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -10,6 +9,7 @@ import listQuickTimers from '@/timer/list-quick-timers.ts'
 import useTimerStore from '@/timer/store.ts'
 import { IQuickTimer } from '@/timer/types.ts'
 import useNotificationStore from '@/notification/store.ts'
+import animationConfig from '@/animation-config.ts'
 
 interface ITimerContentProps {
   closeTab: () => void
@@ -26,7 +26,7 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
         ref={ref}
         className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism-parent z-10 p-4'
         layoutId={tabsConfig.tabIds.timer}
-        {...animateConfig.contentEnter}
+        {...animationConfig.contentEnter}
       >
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row justify-center items-center'>

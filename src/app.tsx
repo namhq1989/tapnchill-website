@@ -11,11 +11,11 @@ import MaximizeButton from '@/maximize-button.tsx'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
-  const initMood = useMoodStore((state) => state.initMood)
+  const initTheme = useMoodStore((state) => state.initTheme)
 
   useEffect(() => {
-    initMood()
-  }, [initMood])
+    initTheme()
+  }, [initTheme])
 
   return (
     <motion.div id='app-bg'>

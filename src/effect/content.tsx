@@ -4,7 +4,7 @@ import { Settings2, X } from 'lucide-react'
 import useEffectStore from '@/effect/store.ts'
 import React from 'react'
 import EffectItem from '@/effect/effect-item.tsx'
-import animateConfig from '@/animate-config.ts'
+import animationConfig from '@/animation-config.ts'
 
 interface IEffectContentProps {
   closeTab: () => void
@@ -19,7 +19,7 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
         ref={ref}
         className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism-parent z-10 p-4'
         layoutId={tabsConfig.tabIds.effect}
-        {...animateConfig.contentEnter}
+        {...animationConfig.contentEnter}
       >
         <motion.div className='flex justify-between items-center mb-8'>
           <motion.div className='flex flex-row'>

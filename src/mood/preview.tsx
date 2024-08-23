@@ -12,7 +12,7 @@ interface IMoodPreviewProps {
 const MoodPreview = (props: IMoodPreviewProps) => {
   const {
     userStatus,
-    currentMood,
+    currentTheme,
     isListening,
     listeningSeconds,
     toggleIsListening,
@@ -44,7 +44,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
             </motion.p>
           ) : null}
           <motion.p className='text-2xl text-white font-bold'>
-            {currentMood.name}
+            {currentTheme.name}
           </motion.p>
         </motion.div>
         <motion.p className='text-sm text-muted'>
