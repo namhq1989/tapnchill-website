@@ -32,7 +32,7 @@ const GradientRadio = (props: IGradientRadioProps) => {
         {
           repeat: Infinity,
           ease: 'easeInOut',
-          duration: 3,
+          duration: 6,
         },
       )
     } else {

@@ -56,6 +56,9 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
 
       if (audio) {
         audio.disconnect()
+        audio.mediaElement.pause()
+        audio.mediaElement.src = ''
+        audio.mediaElement.load()
       }
 
       set({
@@ -84,6 +87,7 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
     }
 
     set({
+      currentStation: station,
       listeningSeconds: 0,
       isListening: false,
       intervalId: null,
