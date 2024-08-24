@@ -13,6 +13,8 @@ import {
 } from 'lucide-react'
 import { IEffect } from '@/effect/types.ts'
 
+const DEFAULT_VOLUME_VALUE = 40
+
 const listEffects: IEffect[] = [
   {
     id: 'crackling-fire',
@@ -20,7 +22,7 @@ const listEffects: IEffect[] = [
     icon: FlameKindling,
     file: 'crackling-fire.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -29,7 +31,7 @@ const listEffects: IEffect[] = [
     icon: CloudRain,
     file: 'rain.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -38,7 +40,7 @@ const listEffects: IEffect[] = [
     icon: Wind,
     file: 'wind-noise.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -47,7 +49,7 @@ const listEffects: IEffect[] = [
     icon: Droplet,
     file: 'water.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -56,7 +58,7 @@ const listEffects: IEffect[] = [
     icon: Waves,
     file: 'sea.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -65,7 +67,7 @@ const listEffects: IEffect[] = [
     icon: TrainTrack,
     file: 'train.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -74,7 +76,7 @@ const listEffects: IEffect[] = [
     icon: Bird,
     file: 'bird.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -83,7 +85,7 @@ const listEffects: IEffect[] = [
     icon: Coffee,
     file: 'coffee-shop.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -92,7 +94,7 @@ const listEffects: IEffect[] = [
     icon: Zap,
     file: 'thunder.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -101,7 +103,7 @@ const listEffects: IEffect[] = [
     icon: Bug,
     file: 'cricket.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
   {
@@ -110,7 +112,7 @@ const listEffects: IEffect[] = [
     icon: Gauge,
     file: 'driving.mp3',
     isAdded: false,
-    volume: 100,
+    volume: DEFAULT_VOLUME_VALUE,
     mutedVolume: 0,
   },
 ]

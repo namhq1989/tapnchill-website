@@ -1,6 +1,6 @@
 import { ITheme } from '@/mood/types.ts'
 
-const DEFAULT_VOLUME_VALUE = 50
+const DEFAULT_VOLUME_VALUE = 40
 
 const listThemes: ITheme[] = [
   {
