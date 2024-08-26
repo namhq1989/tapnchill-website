@@ -62,7 +62,7 @@ const TimeInput = () => {
   }, [inputTime, cursorPosition])
 
   return (
-    <motion.div className='flex items-center justify-between w-full max-w-full py-4 px-0 mt-12'>
+    <motion.div className='flex items-center justify-between w-full max-w-full py-4 px-0 mt-8'>
       <Input
         type='text'
         id='timeInput'

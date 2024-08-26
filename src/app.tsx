@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/toaster.tsx'
 import IsListeningButton from '@/is-listening-button.tsx'
 import useMoodStore from '@/mood/store.ts'
 import MaximizeButton from '@/maximize-button.tsx'
+import FeedbackButton from '@/feedback-button.tsx'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -27,6 +28,7 @@ const App = () => {
           <IsListeningButton isContentOpening={isMenuOpened} />
           <div className='flex-grow' />
           <MaximizeButton />
+          <FeedbackButton />
         </motion.div>
         <Tabs isMenuOpened={isMenuOpened} />
       </motion.div>
