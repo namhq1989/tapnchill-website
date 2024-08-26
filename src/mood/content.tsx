@@ -14,12 +14,15 @@ interface IMoodContentProps {
 const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
   (props, ref) => {
     const {
+      isBuffering,
+      isListening,
       currentStation,
       stations,
       switchStation,
       currentTheme,
       themes,
       switchTheme,
+      toggleIsListening,
     } = useMoodStore((state) => state)
     return (
       <motion.div
@@ -41,11 +44,14 @@ const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
             return (
               <StationItem
                 key={station.id}
+                isBuffering={isBuffering}
+                isListening={isListening}
                 station={station}
                 isCurrentStation={currentStation?.id === station.id}
                 onSwitchStation={(id: string) => {
                   switchStation(id)
                 }}
+                onToggleListening={toggleIsListening}
               />
             )
           })}
