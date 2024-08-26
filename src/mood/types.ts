@@ -1,5 +1,6 @@
 export interface IMoodStore {
   userStatus: string
+  isBuffering: boolean
   isListening: boolean
   listeningSeconds: number
   intervalId: number | NodeJS.Timeout | null

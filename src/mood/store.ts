@@ -7,6 +7,7 @@ import listStations from '@/mood/list-stations.ts'
 
 const useMoodStore = create<IMoodStore>((set, get) => ({
   userStatus: '',
+  isBuffering: false,
   isListening: false,
   listeningSeconds: 0,
   intervalId: null,
@@ -45,9 +46,30 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       volumeControl.connect(audioCtx.destination)
       audioElement.play().then()
 
-      if (audioCtx.state === 'suspended') {
-        await audioCtx.resume()
-      }
+      audioElement.addEventListener('waiting', () => {
+        set({ isBuffering: true })
+      })
+
+      audioElement.addEventListener('canplay', () => {
+        set({ isBuffering: false })
+      })
+
+      // audioElement.addEventListener('canplaythrough', () => {
+      //   console.log('Audio can play through without interruption...')
+      // })
+
+      // Start playing the audio
+      audioElement
+        .play()
+        .then(() => {
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume()
+          }
+        })
+        .catch((error) => {
+          console.error('Error playing audio:', error)
+          // setIsLoading(false); // Hide loading effect if there's an error
+        })
 
       set({ isListening: true, intervalId, audio, volumeControl })
     } else {

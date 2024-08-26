@@ -1,8 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Power } from 'lucide-react'
+import { Pause, Play } from 'lucide-react'
 import useMoodStore from '@/mood/store.ts'
 import GradientRadio from '@/mood/gradient-radio.tsx'
+import LoadingIndicator from '@/loading-indicator.tsx'
 
 interface IMoodPreviewProps {
   tabId: string
@@ -12,11 +13,18 @@ interface IMoodPreviewProps {
 const MoodPreview = (props: IMoodPreviewProps) => {
   const {
     userStatus,
-    currentTheme,
+    isBuffering,
     isListening,
+    currentTheme,
     listeningSeconds,
     toggleIsListening,
   } = useMoodStore((state) => state)
+
+  const IconComponent = isBuffering
+    ? LoadingIndicator
+    : isListening
+      ? Pause
+      : Play
 
   return (
     <motion.div
@@ -24,7 +32,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
       className='col-span-6 md:col-span-6 min-h-[170px] glassmorphism-mood p-4'
     >
       <motion.div className='flex justify-between items-center'>
-        <Power
+        <IconComponent
           className='cursor-pointer text-white'
           size={28}
           onClick={toggleIsListening}
