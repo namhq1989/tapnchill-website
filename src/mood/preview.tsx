@@ -18,7 +18,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
     currentStation,
     currentTheme,
     listeningSeconds,
-    toggleIsListening,
+    toggleListening,
   } = useMoodStore((state) => state)
 
   const IconComponent = isBuffering
@@ -36,7 +36,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
         <IconComponent
           className='cursor-pointer text-white'
           size={28}
-          onClick={currentStation ? toggleIsListening : props.onClick}
+          onClick={currentStation ? toggleListening : props.onClick}
         />
         {/*<motion.div className='flex flex-row justify-center items-center'>*/}
         {/*  <AlarmClockCheck className='text-white' size={24} />*/}

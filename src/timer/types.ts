@@ -7,6 +7,13 @@ export interface ITimerStore {
   startTimer: () => void
   pauseTimer: () => void
   resetTimer: () => void
+  onFinishActions: TimerAction[]
+  toggleOnFinishAction: (actions: TimerAction) => void
+}
+
+export enum TimerAction {
+  Ring = 'ring',
+  StopTheRadio = 'stop-the-radio',
 }
 
 export interface IQuickTimer {

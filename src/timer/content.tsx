@@ -7,7 +7,7 @@ import TimeInput from '@/timer/time-input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import listQuickTimers from '@/timer/list-quick-timers.ts'
 import useTimerStore from '@/timer/store.ts'
-import { IQuickTimer } from '@/timer/types.ts'
+import { IQuickTimer, TimerAction } from '@/timer/types.ts'
 import useNotificationStore from '@/notification/store.ts'
 import animationConfig from '@/animation-config.ts'
 import { Checkbox } from '@/components/ui/checkbox.tsx'
@@ -18,8 +18,15 @@ interface ITimerContentProps {
 
 const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
   (props, ref) => {
-    const { setTime, isRunning, startTimer, pauseTimer, resetTimer } =
-      useTimerStore((state) => state)
+    const {
+      setTime,
+      isRunning,
+      startTimer,
+      pauseTimer,
+      resetTimer,
+      onFinishActions,
+      toggleOnFinishAction,
+    } = useTimerStore((state) => state)
     const { showNotification } = useNotificationStore.getState()
 
     return (
@@ -81,7 +88,13 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
         <motion.div className='flex flex-col mt-4justify-center items-start'>
           <motion.p className='mb-2'>On finish:</motion.p>
           <div className='flex items-center space-x-2 py-2'>
-            <Checkbox id='ring' />
+            <Checkbox
+              id='ring'
+              checked={onFinishActions.includes(TimerAction.Ring)}
+              onCheckedChange={() => {
+                toggleOnFinishAction(TimerAction.Ring)
+              }}
+            />
             <label
               htmlFor='ring'
               className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -90,7 +103,13 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
             </label>
           </div>
           <div className='flex items-center space-x-2 py-2'>
-            <Checkbox id='radio' />
+            <Checkbox
+              id='radio'
+              checked={onFinishActions.includes(TimerAction.StopTheRadio)}
+              onCheckedChange={() => {
+                toggleOnFinishAction(TimerAction.StopTheRadio)
+              }}
+            />
             <label
               htmlFor='radio'
               className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'

@@ -13,7 +13,7 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
   intervalId: null,
   volume: 100,
   mutedVolume: 0,
-  toggleIsListening: async () => {
+  toggleListening: async () => {
     const { currentStation } = get()
     if (!currentStation || !currentStation.streamingUrl) {
       const { showErrorNotification } = useNotificationStore.getState()
@@ -73,23 +73,27 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
 
       set({ isListening: true, intervalId, audio, volumeControl })
     } else {
-      const { intervalId, audio } = get()
-      clearInterval(intervalId as number | NodeJS.Timeout)
-
-      if (audio) {
-        audio.disconnect()
-        audio.mediaElement.pause()
-        audio.mediaElement.src = ''
-        audio.mediaElement.load()
-      }
-
-      set({
-        isListening: false,
-        intervalId: null,
-        audio: undefined,
-        volumeControl: undefined,
-      })
+      const { stopListening } = get()
+      stopListening()
     }
+  },
+  stopListening: () => {
+    const { intervalId, audio } = get()
+    clearInterval(intervalId as number | NodeJS.Timeout)
+
+    if (audio) {
+      audio.disconnect()
+      audio.mediaElement.pause()
+      audio.mediaElement.src = ''
+      audio.mediaElement.load()
+    }
+
+    set({
+      isListening: false,
+      intervalId: null,
+      audio: undefined,
+      volumeControl: undefined,
+    })
   },
   stations: listStations,
   currentStation: null,
@@ -115,7 +119,7 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       intervalId: null,
       audio: undefined,
     })
-    get().toggleIsListening()
+    get().toggleListening()
   },
   themes: listThemes,
   currentTheme: listThemes[0],

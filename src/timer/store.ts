@@ -1,6 +1,7 @@
 import { create } from 'zustand'
-import { ITimerStore } from '@/timer/types.ts'
+import { ITimerStore, TimerAction } from '@/timer/types.ts'
 import useNotificationStore from '@/notification/store.ts'
+import useMoodStore from '@/mood/store.ts'
 
 const DEFAULT_TIMER = 900
 
@@ -16,7 +17,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
     if (get().isRunning) return
 
     const intervalId = setInterval(async () => {
-      const timeLeft = get().timeLeft
+      const { timeLeft } = get()
       if (timeLeft > 0) {
         set({ timeLeft: timeLeft - 1 })
       } else {
@@ -28,16 +29,24 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
           description: 'Time is up!',
         })
 
-        const audioCtx = new window.AudioContext()
-        const soundSrc = await import(/* @vite-ignore */ `/effects/ding.mp3`)
-        const response = await fetch(soundSrc.default)
-        const arrayBuffer = await response.arrayBuffer()
-        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+        const { onFinishActions } = get()
 
-        const audio = audioCtx.createBufferSource()
-        audio.buffer = audioBuffer
-        audio.connect(audioCtx.destination)
-        audio.start(0)
+        if (onFinishActions.includes(TimerAction.Ring)) {
+          const audioCtx = new window.AudioContext()
+          const soundSrc = await import(/* @vite-ignore */ `/effects/ding.mp3`)
+          const response = await fetch(soundSrc.default)
+          const arrayBuffer = await response.arrayBuffer()
+          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+
+          const audio = audioCtx.createBufferSource()
+          audio.buffer = audioBuffer
+          audio.connect(audioCtx.destination)
+          audio.start(0)
+        }
+        if (onFinishActions.includes(TimerAction.StopTheRadio)) {
+          const { stopListening } = useMoodStore.getState()
+          stopListening()
+        }
       }
     }, 1000)
 
@@ -51,6 +60,18 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
   resetTimer: () => {
     clearInterval(get().intervalId as number | NodeJS.Timeout)
     set({ timeLeft: get().timeSet, isRunning: false, intervalId: null })
+  },
+  onFinishActions: [TimerAction.Ring],
+  setFinishActions: (actions: TimerAction[]) => {
+    set({ onFinishActions: actions })
+  },
+  toggleOnFinishAction: (action: TimerAction) => {
+    const { onFinishActions } = get()
+    if (onFinishActions.includes(action)) {
+      set({ onFinishActions: onFinishActions.filter((a) => a !== action) })
+    } else {
+      set({ onFinishActions: [...onFinishActions, action] })
+    }
   },
 }))
 
