@@ -12,6 +12,36 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
     return get().effects.find((e) => e.id === id)
   },
 
+  addEffectById: async (id: string) => {
+    const effect = get().effects.find((e) => e.id === id)
+    if (!effect) return
+
+    const modificationEffect = { ...effect }
+    const audioCtx = new window.AudioContext()
+
+    const soundSrc = await import(
+      /* @vite-ignore */ `/effects/${modificationEffect.file}`
+    )
+    const response = await fetch(soundSrc.default)
+    const arrayBuffer = await response.arrayBuffer()
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+
+    modificationEffect.audio = audioCtx.createBufferSource()
+    modificationEffect.audio.buffer = audioBuffer
+    modificationEffect.audio.loop = true
+
+    modificationEffect.volumeControl = audioCtx.createGain()
+    modificationEffect.volumeControl.gain.value =
+      modificationEffect.volume / 100
+
+    modificationEffect.volumeControl.connect(audioCtx.destination)
+    modificationEffect.audio.connect(modificationEffect.volumeControl)
+
+    set((state) => ({
+      effects: state.effects.map((e) => (e.id === id ? modificationEffect : e)),
+    }))
+  },
+
   removeAllEffects: () => {
     const runningEffects = get().effects.filter((e) => e.isAdded)
 
@@ -46,6 +76,8 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
 
     modificationEffect.isAdded = !modificationEffect.isAdded
 
+    console.log('modificationEffect', modificationEffect)
+
     if (modificationEffect.isAdded) {
       const audioCtx = new window.AudioContext()
 
@@ -62,12 +94,19 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
 
       modificationEffect.volumeControl = audioCtx.createGain()
       modificationEffect.volumeControl.gain.value =
-        modificationEffect.volume / 100 || 1
+        modificationEffect.volume / 100
 
       modificationEffect.volumeControl.connect(audioCtx.destination)
       modificationEffect.audio.connect(modificationEffect.volumeControl)
 
-      modificationEffect.audio.start(0)
+      console.log(
+        'modificationEffect.volumeControl.gain.value',
+        modificationEffect.volumeControl.gain.value,
+      )
+      if (modificationEffect.volumeControl.gain.value > 0) {
+        console.log('start')
+        modificationEffect.audio.start(0)
+      }
     } else {
       modificationEffect.audio?.stop()
       modificationEffect.audio = undefined
@@ -81,6 +120,7 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
 
   changeVolumeValue: (id: string, value: number) => {
     const effect = get().effects.find((e) => e.id === id)
+    console.log('effect', effect)
     if (!effect || !effect.audio || !effect.volumeControl) return
 
     const modificationEffect = { ...effect }

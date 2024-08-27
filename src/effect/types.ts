@@ -15,6 +15,7 @@ export interface IEffect {
 export interface IEffectStore {
   effects: IEffect[]
   getEffectById: (id: string) => IEffect | undefined
+  addEffectById: (id: string) => Promise<void>
   removeAllEffects: () => void
   toggleEffect: (id: string) => Promise<void>
   changeVolumeValue: (id: string, value: number) => void
