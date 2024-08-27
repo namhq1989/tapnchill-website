@@ -7,9 +7,10 @@ import TimeInput from '@/timer/time-input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import listQuickTimers from '@/timer/list-quick-timers.ts'
 import useTimerStore from '@/timer/store.ts'
-import { IQuickTimer } from '@/timer/types.ts'
+import { IQuickTimer, TimerAction } from '@/timer/types.ts'
 import useNotificationStore from '@/notification/store.ts'
 import animationConfig from '@/animation-config.ts'
+import { Checkbox } from '@/components/ui/checkbox.tsx'
 
 interface ITimerContentProps {
   closeTab: () => void
@@ -17,14 +18,21 @@ interface ITimerContentProps {
 
 const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
   (props, ref) => {
-    const { setTime, isRunning, startTimer, pauseTimer, resetTimer } =
-      useTimerStore((state) => state)
+    const {
+      setTime,
+      isRunning,
+      startTimer,
+      pauseTimer,
+      resetTimer,
+      onFinishActions,
+      toggleOnFinishAction,
+    } = useTimerStore((state) => state)
     const { showNotification } = useNotificationStore.getState()
 
     return (
       <motion.div
         ref={ref}
-        className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism-parent z-10 p-4'
+        className='fixed overflow-auto scrollbar-hide top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[800px] glassmorphism z-10 p-4'
         layoutId={tabsConfig.tabIds.timer}
         {...animationConfig.contentEnter}
       >
@@ -57,8 +65,7 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
           />
         </motion.div>
         <TimeInput />
-        <motion.div className='flex flex-col justify-center items-start'>
-          <motion.div className='h-4' />
+        <motion.div className='flex flex-col mt-4 mb-8 justify-center items-start'>
           <motion.p className='mb-4'>Or quick choose:</motion.p>
           <motion.div className='flex flex-wrap w-full justify-start items-start gap-4'>
             {listQuickTimers.map((t: IQuickTimer, i: number) => {
@@ -77,6 +84,39 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
               )
             })}
           </motion.div>
+        </motion.div>
+        <motion.div className='flex flex-col mt-4justify-center items-start'>
+          <motion.p className='mb-2'>On finish:</motion.p>
+          <div className='flex items-center space-x-2 py-2'>
+            <Checkbox
+              id='ring'
+              checked={onFinishActions.includes(TimerAction.Ring)}
+              onCheckedChange={() => {
+                toggleOnFinishAction(TimerAction.Ring)
+              }}
+            />
+            <label
+              htmlFor='ring'
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            >
+              Ring
+            </label>
+          </div>
+          <div className='flex items-center space-x-2 py-2'>
+            <Checkbox
+              id='radio'
+              checked={onFinishActions.includes(TimerAction.StopTheRadio)}
+              onCheckedChange={() => {
+                toggleOnFinishAction(TimerAction.StopTheRadio)
+              }}
+            />
+            <label
+              htmlFor='radio'
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            >
+              Stop the radio
+            </label>
+          </div>
         </motion.div>
       </motion.div>
     )

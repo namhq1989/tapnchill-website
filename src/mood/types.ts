@@ -4,7 +4,8 @@ export interface IMoodStore {
   isListening: boolean
   listeningSeconds: number
   intervalId: number | NodeJS.Timeout | null
-  toggleIsListening: () => void
+  toggleListening: () => void
+  stopListening: () => void
   stations: IStation[]
   currentStation: IStation | null
   switchStation: (id: string) => void

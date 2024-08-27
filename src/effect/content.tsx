@@ -17,7 +17,7 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
     return (
       <motion.div
         ref={ref}
-        className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism-parent z-10 p-4'
+        className='fixed overflow-auto top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[700px] glassmorphism z-10 p-4'
         layoutId={tabsConfig.tabIds.effect}
         {...animationConfig.contentEnter}
       >

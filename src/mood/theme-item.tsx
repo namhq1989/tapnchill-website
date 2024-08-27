@@ -31,7 +31,7 @@ const ThemeItem = React.forwardRef<HTMLDivElement, IThemeItemProps>(
           </motion.div>
           <motion.div className='flex-grow min-h-2' />
           {isCurrentTheme ? (
-            <Button disabled>Playing</Button>
+            <Button disabled>Choosing</Button>
           ) : (
             <Button
               onClick={() => {

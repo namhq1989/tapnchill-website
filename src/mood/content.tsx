@@ -22,7 +22,7 @@ const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
       currentTheme,
       themes,
       switchTheme,
-      toggleIsListening,
+      toggleListening,
     } = useMoodStore((state) => state)
     return (
       <motion.div
@@ -51,7 +51,7 @@ const MoodContent = React.forwardRef<HTMLDivElement, IMoodContentProps>(
                 onSwitchStation={(id: string) => {
                   switchStation(id)
                 }}
-                onToggleListening={toggleIsListening}
+                onToggleListening={toggleListening}
               />
             )
           })}
