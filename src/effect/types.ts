@@ -14,9 +14,12 @@ export interface IEffect {
 
 export interface IEffectStore {
   effects: IEffect[]
+  uniqueEffects: (effects: IEffect[]) => IEffect[]
   getEffectById: (id: string) => IEffect | undefined
+  addEffectById: (id: string) => Promise<void>
   removeAllEffects: () => void
   toggleEffect: (id: string) => Promise<void>
   changeVolumeValue: (id: string, value: number) => void
   toggleMute: (id: string) => void
+  addEffectAudio: (effect: IEffect) => Promise<IEffect>
 }

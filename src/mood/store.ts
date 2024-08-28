@@ -135,6 +135,11 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
         return
       }
 
+      const { addEffectById } = useEffectStore.getState()
+      for (const effect of theme.effects) {
+        await addEffectById(effect.id)
+      }
+
       set({
         currentTheme: theme,
       })

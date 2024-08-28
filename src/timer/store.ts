@@ -32,7 +32,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
         const { onFinishActions } = get()
 
         if (onFinishActions.includes(TimerAction.Ring)) {
-          const audioCtx = new window.AudioContext()
+          let audioCtx: AudioContext | null = new window.AudioContext()
           const soundSrc = await import(/* @vite-ignore */ `/effects/ding.mp3`)
           const response = await fetch(soundSrc.default)
           const arrayBuffer = await response.arrayBuffer()
@@ -40,7 +40,23 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
 
           const audio = audioCtx.createBufferSource()
           audio.buffer = audioBuffer
-          audio.connect(audioCtx.destination)
+
+          const volumeControl = audioCtx.createGain()
+          volumeControl.gain.value = 1.5
+
+          volumeControl.connect(audioCtx.destination)
+          audio.connect(volumeControl)
+
+          audio.addEventListener('ended', () => {
+            audio.disconnect(volumeControl)
+            volumeControl.disconnect(audioCtx!.destination)
+
+            audioCtx!.close()
+
+            audioCtx = null
+            console.log('Audio finished and resources cleaned up.')
+          })
+
           audio.start(0)
         }
         if (onFinishActions.includes(TimerAction.StopTheRadio)) {
