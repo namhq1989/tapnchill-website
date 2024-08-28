@@ -2,8 +2,8 @@ import { Settings2 } from 'lucide-react'
 import React, { useCallback } from 'react'
 import useEffectStore from '@/effect/store.ts'
 import EffectItem from '@/effect/preview-item.tsx'
-import { useShallow } from 'zustand/react/shallow'
 import { motion } from 'framer-motion'
+import { useShallow } from 'zustand/react/shallow'
 
 interface IEffectPreviewProps {
   tabId: string
@@ -12,8 +12,10 @@ interface IEffectPreviewProps {
 
 const EffectPreview = (props: IEffectPreviewProps) => {
   const effects = useEffectStore(useShallow((state) => state.effects))
-  const { changeVolumeValue, toggleMute } = useEffectStore((state) => state)
-  const added = effects.filter((e) => e.isAdded)
+  const { changeVolumeValue, toggleMute, uniqueEffects } = useEffectStore(
+    (state) => state,
+  )
+  const added = uniqueEffects(effects.filter((e) => e.isAdded))
 
   const handleVolumeChange = useCallback(
     (id: string) => (value: number) => {
