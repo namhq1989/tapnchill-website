@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Pause, Play } from 'lucide-react'
 import useMoodStore from '@/mood/store.ts'
 import GradientRadio from '@/mood/gradient-radio.tsx'
 import LoadingIndicator from '@/loading-indicator.tsx'
+import removeDotAtEnd from '@/utils/string.ts'
 
 interface IMoodPreviewProps {
   tabId: string
@@ -19,7 +20,16 @@ const MoodPreview = (props: IMoodPreviewProps) => {
     currentTheme,
     listeningSeconds,
     toggleListening,
+    quote,
+    getQuote,
   } = useMoodStore((state) => state)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getQuote()
+    }
+    fetchData().then()
+  }, [getQuote])
 
   const IconComponent = isBuffering
     ? LoadingIndicator
@@ -61,15 +71,16 @@ const MoodPreview = (props: IMoodPreviewProps) => {
             ? userStatus
             : 'Feeling good, or is it one of those days?'}
         </motion.p>
+        {/*<div className='h-8' />*/}
+        {/*<motion.p className='text-white font-bold'>*/}
+        {/*  Your broadcast is set to stop at [11:00 PM]. Relax until then!*/}
+        {/*</motion.p>*/}
         <div className='h-8' />
-        <motion.p className='text-white font-bold'>
-          Your broadcast is set to stop at [11:00 PM]. Relax until then!
-        </motion.p>
-        <div className='h-8' />
-        <motion.blockquote className='border-l-2 pl-6 italic text-muted'>
-          I change my mind when the facts change. What do you do? - John Maynard
-          Keynes
-        </motion.blockquote>
+        {quote && (
+          <motion.blockquote className='border-l-2 pl-6 italic text-muted'>
+            {removeDotAtEnd(quote.content)} - {quote.author}
+          </motion.blockquote>
+        )}
       </motion.div>
     </motion.div>
   )

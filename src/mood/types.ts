@@ -17,6 +17,8 @@ export interface IMoodStore {
   mutedVolume: number
   audio?: MediaElementAudioSourceNode
   volumeControl?: GainNode
+  quote: IQuote | null
+  getQuote: () => Promise<void>
 }
 
 export interface IStation {
@@ -41,6 +43,11 @@ export interface IThemeEffect {
 }
 
 export interface IQuote {
-  text: string
+  id: string
+  content: string
   author: string
+}
+
+export interface IGetQuoteApiResponse {
+  quote: IQuote
 }
