@@ -1,9 +1,10 @@
 import { create } from 'zustand'
-import { IMoodStore } from '@/mood/types.ts'
+import { IGetQuoteApiResponse, IMoodStore } from '@/mood/types.ts'
 import listThemes from '@/mood/list-themes.ts'
 import useNotificationStore from '@/notification/store.ts'
 import useEffectStore from '@/effect/store.ts'
 import listStations from '@/mood/list-stations.ts'
+import useHttpStore from '@/http/store.ts'
 
 const useMoodStore = create<IMoodStore>((set, get) => ({
   userStatus: '',
@@ -168,6 +169,16 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       currentTheme: theme,
     })
     localStorage.setItem('current_theme', id)
+  },
+  quote: null,
+  getQuote: async () => {
+    const { get } = useHttpStore.getState()
+    const response = await get<IGetQuoteApiResponse>('api/quote/fetch', {})
+    if (response && response.quote) {
+      set({
+        quote: response.quote,
+      })
+    }
   },
 }))
 
