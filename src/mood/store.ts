@@ -5,6 +5,7 @@ import useNotificationStore from '@/notification/store.ts'
 import useEffectStore from '@/effect/store.ts'
 import listStations from '@/mood/list-stations.ts'
 import useHttpStore from '@/http/store.ts'
+import { ISocketUpdateChannelStats } from '@/socketio/types.ts'
 
 const useMoodStore = create<IMoodStore>((set, get) => ({
   userStatus: '',
@@ -113,8 +114,22 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       audio.disconnect()
     }
 
+    const currentStation = {
+      ...station,
+      audiences: station.audiences + 1,
+    }
+
+    const { stations } = get()
+    const newStations = stations.map((s) => {
+      if (s.id === id) {
+        s.audiences = s.audiences + 1
+      }
+      return s
+    })
+
     set({
-      currentStation: station,
+      stations: newStations,
+      currentStation,
       listeningSeconds: 0,
       isListening: false,
       intervalId: null,
@@ -179,6 +194,28 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
         quote: response.quote,
       })
     }
+  },
+  updateStationsStats: (data: ISocketUpdateChannelStats[]) => {
+    const { stations, currentStation } = get()
+
+    const newStations = stations.map((s) => {
+      data.forEach((station) => {
+        if (s.id === station.id) {
+          s.audiences = station.audiences
+        }
+      })
+
+      return s
+    })
+
+    newStations.forEach((s) => {
+      if (currentStation && currentStation.id === s.id) {
+        currentStation.audiences = s.audiences
+        set({ currentStation })
+      }
+    })
+
+    set({ stations: newStations })
   },
 }))
 

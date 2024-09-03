@@ -5,14 +5,14 @@ const listStations: IStation[] = [
     id: 'chilling',
     name: 'Chilling',
     streamingUrl: 'http://localhost:8080/chilling',
-    listeners: 80,
+    audiences: 0,
     thumbnail: 'chilling.png',
   },
   {
     id: 'motivating',
     name: 'Motivating',
     streamingUrl: 'http://localhost:8080/motivating',
-    listeners: 80,
+    audiences: 0,
     thumbnail: 'sleeping.png',
   },
   // {
@@ -26,7 +26,7 @@ const listStations: IStation[] = [
     id: 'gaming',
     name: 'Gaming',
     streamingUrl: 'http://localhost:8080/gaming',
-    listeners: 80,
+    audiences: 0,
     thumbnail: 'focusing.png',
   },
   // {

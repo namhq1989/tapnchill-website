@@ -8,14 +8,17 @@ import { Toaster } from '@/components/ui/toaster.tsx'
 import IsListeningButton from '@/is-listening-button.tsx'
 import useMoodStore from '@/mood/store.ts'
 import MaximizeButton from '@/maximize-button.tsx'
+import useSocketStore from '@/socketio/store.ts'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false)
   const initTheme = useMoodStore((state) => state.initTheme)
+  const connect = useSocketStore((state) => state.connect)
 
   useEffect(() => {
     initTheme()
-  }, [initTheme])
+    connect()
+  }, [initTheme, connect])
 
   return (
     <motion.div id='app-bg'>
