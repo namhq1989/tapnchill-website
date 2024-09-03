@@ -4,6 +4,7 @@ const tabIds = {
   timer: 'tab-timer',
   calendar: 'tab-calendar',
   audience: 'tab-audience',
+  weather: 'tab-weather',
 }
 
 export default {

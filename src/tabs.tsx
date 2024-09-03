@@ -9,6 +9,7 @@ import AudiencePreview from '@/audience/preview.tsx'
 import MoodPreview from '@/mood/preview.tsx'
 import MoodContent from '@/mood/content.tsx'
 import useAppStore from '@/store.ts'
+import WeatherPreview from '@/weather/preview.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -55,6 +56,10 @@ const Tabs = (props: ITabsProps) => {
         <EffectPreview
           tabId={tabsConfig.tabIds.effect}
           onClick={() => setOpenedTabId(tabsConfig.tabIds.effect)}
+        />
+        <WeatherPreview
+          tabId={tabsConfig.tabIds.weather}
+          onClick={() => setOpenedTabId(tabsConfig.tabIds.weather)}
         />
         <TimerPreview
           tabId={tabsConfig.tabIds.timer}
