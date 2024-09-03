@@ -1,3 +1,5 @@
+import { ISocketUpdateChannelStats } from '@/socketio/types.ts'
+
 export interface IMoodStore {
   userStatus: string
   isBuffering: boolean
@@ -19,13 +21,14 @@ export interface IMoodStore {
   volumeControl?: GainNode
   quote: IQuote | null
   getQuote: () => Promise<void>
+  updateStationsStats: (data: ISocketUpdateChannelStats[]) => void
 }
 
 export interface IStation {
   id: string
   name: string
   streamingUrl: string
-  listeners: number
+  audiences: number
   thumbnail: string
 }
 

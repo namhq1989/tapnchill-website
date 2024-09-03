@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import useAudienceStore from '@/audience/store.ts'
+import useMoodStore from '@/mood/store.ts'
 
 interface IAudiencePreviewProps {
   tabId: string
@@ -8,19 +9,25 @@ interface IAudiencePreviewProps {
 }
 
 const AudiencePreview = (props: IAudiencePreviewProps) => {
-  const { audiences, noOneText, audienceText, otherText, endingText } =
-    useAudienceStore((state) => state)
+  const { currentStation } = useMoodStore((state) => state)
+  const { noOneText, audienceText, otherText, endingText } = useAudienceStore(
+    (state) => state,
+  )
+
+  if (currentStation === null) return null
 
   return (
     <motion.div
       layoutId={props.tabId}
       className='col-span-3 md:col-span-2 h-[170px] glassmorphism p-4'
     >
-      {audiences > 0 ? (
+      {currentStation!.audiences > 0 ? (
         <motion.div className='flex flex-col h-full justify-start items-center'>
-          <motion.p className='text-6xl self-start'>{audienceText()}</motion.p>
+          <motion.p className='text-6xl self-start'>
+            {audienceText(currentStation!.audiences)}
+          </motion.p>
           <motion.p className='text-muted-foreground'>
-            {otherText()} {endingText}
+            {otherText(currentStation!.audiences)} {endingText}
           </motion.p>
         </motion.div>
       ) : (

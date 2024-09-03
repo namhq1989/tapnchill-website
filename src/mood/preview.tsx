@@ -17,7 +17,6 @@ const MoodPreview = (props: IMoodPreviewProps) => {
     isBuffering,
     isListening,
     currentStation,
-    currentTheme,
     listeningSeconds,
     toggleListening,
     quote,
@@ -58,12 +57,12 @@ const MoodPreview = (props: IMoodPreviewProps) => {
       <motion.div className='flex flex-col justify-center items-start mt-4'>
         <motion.div className='flex flex-row items-center'>
           {isListening ? (
-            <motion.p className='text-lg text-white font-bold mr-1'>
+            <motion.p className='text-md text-white font-bold mr-1'>
               [{formatListeningTime(listeningSeconds)}]
             </motion.p>
           ) : null}
           <motion.p className='text-2xl text-white font-bold'>
-            {currentTheme.name}
+            {currentStation!.name}
           </motion.p>
         </motion.div>
         <motion.p className='text-sm text-muted'>

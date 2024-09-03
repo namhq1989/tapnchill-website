@@ -59,7 +59,7 @@ const StationItem = React.forwardRef<HTMLDivElement, IStationItemProps>(
         <motion.div className='flex flex-col p-2'>
           <motion.p>{station.name}</motion.p>
           <motion.p className='text-sm text-muted-foreground'>
-            {station.listeners} listeners
+            {station.audiences} audiences
           </motion.p>
         </motion.div>
       </motion.div>

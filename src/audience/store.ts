@@ -15,36 +15,34 @@ const NO_ONE_TEXTS = [
 ]
 
 const ENDING_TEXTS = [
-  'are feeling the vibe',
-  'are in the mood with us',
-  'are sharing the groove',
-  'are caught in the beat',
-  'are vibing together',
-  'are tuned to the mood',
-  'are syncing the feels',
-  'are echoing the mood',
-  'are in harmony with us',
-  'are riding the mood waves',
+  'feeling the vibe',
+  'in the mood with us',
+  'sharing the groove',
+  'caught in the beat',
+  'vibing together',
+  'tuned to the mood',
+  'syncing the feels',
+  'echoing the mood',
+  'in harmony with us',
+  'riding the mood waves',
 ]
 
-const useAudienceStore = create<IAudienceStore>((_, get) => ({
-  audiences: 53,
+const useAudienceStore = create<IAudienceStore>(() => ({
   endingText: ENDING_TEXTS[Math.floor(Math.random() * ENDING_TEXTS.length)],
   noOneText: () => {
     return NO_ONE_TEXTS[Math.floor(Math.random() * NO_ONE_TEXTS.length)]
   },
-  audienceText: () => {
-    const number = get().audiences
-    if (number >= 1_000_000) {
-      return (number / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'm'
-    } else if (number >= 1_000) {
-      return (number / 1_000).toFixed(1).replace(/\.0$/, '') + 'k'
+  audienceText: (audiences: number) => {
+    if (audiences >= 1_000_000) {
+      return (audiences / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'm'
+    } else if (audiences >= 1_000) {
+      return (audiences / 1_000).toFixed(1).replace(/\.0$/, '') + 'k'
     } else {
-      return number.toString()
+      return audiences.toString()
     }
   },
-  otherText: () => {
-    return get().audiences === 1 ? 'other' : 'others'
+  otherText: (audiences: number) => {
+    return audiences === 1 ? 'audience is' : 'audiences are'
   },
 }))
 
