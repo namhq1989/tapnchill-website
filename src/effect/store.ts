@@ -41,9 +41,12 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
     for (const effect of effects) {
       if (!effect.isAdded) continue
 
-      effect.audio!.stop()
-      effect.audio = undefined
-      effect.volumeControl = undefined
+      if (effect.audio) {
+        effect.audio!.stop()
+        effect.audio = undefined
+        effect.volumeControl = undefined
+      }
+
       effect.isAdded = false
     }
 

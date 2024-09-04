@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Maximize, Minimize } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const MaximizeButton = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -28,6 +28,20 @@ const MaximizeButton = () => {
     }
     setIsFullscreen(false)
   }
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false)
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+    }
+  }, [])
 
   return (
     <motion.div
