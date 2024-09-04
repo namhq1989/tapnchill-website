@@ -36,6 +36,7 @@ export interface ITheme {
   id: string
   name: string
   thumbnail: string
+  fallbackImg: string
   background: string
   effects: IThemeEffect[]
 }

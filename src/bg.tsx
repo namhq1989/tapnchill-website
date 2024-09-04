@@ -12,6 +12,7 @@ const Background = () => {
         loop
         muted
         playsInline
+        poster={currentTheme.fallbackImg}
         className='video-background'
       >
         <source
