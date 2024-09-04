@@ -50,7 +50,7 @@ const StationItem = React.forwardRef<HTMLDivElement, IStationItemProps>(
           }}
         >
           <motion.div
-            className={`absolute inset-0 ${isCurrentStation ? 'bg-black/70 opacity-10' : 'bg-black opacity-60'}  rounded-3xl`}
+            className={`absolute inset-0 ${isCurrentStation ? 'bg-black/70 opacity-10' : 'bg-black opacity-70'}  rounded-3xl`}
           ></motion.div>
           <motion.div className='z-10'>
             <IconComponent className='text-white' size={40} />

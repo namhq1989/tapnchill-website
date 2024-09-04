@@ -15,12 +15,11 @@ const useSocketStore = create<ISocketStore>((set, get) => ({
       upgrade: true,
     })
 
-    newSocket.on('connect', () => {
-      console.log('connected')
-    })
+    // newSocket.on('connect', () => {
+    //   console.log('connected')
+    // })
 
     newSocket.on('channel-stats', (data: ISocketUpdateChannelStats[]) => {
-      console.log('data', data)
       const { updateStationsStats } = useMoodStore.getState()
       updateStationsStats(data)
     })
