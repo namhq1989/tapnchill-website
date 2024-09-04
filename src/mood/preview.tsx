@@ -62,7 +62,7 @@ const MoodPreview = (props: IMoodPreviewProps) => {
             </motion.p>
           ) : null}
           <motion.p className='text-2xl text-white font-bold'>
-            {currentStation!.name}
+            {currentStation?.name || 'N/A'}
           </motion.p>
         </motion.div>
         <motion.p className='text-sm text-muted'>
