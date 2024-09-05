@@ -5,6 +5,7 @@ const tabIds = {
   calendar: 'tab-calendar',
   audience: 'tab-audience',
   weather: 'tab-weather',
+  feedback: 'tab-feedback',
 }
 
 export default {

@@ -27,6 +27,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
         const { showNotification } = useNotificationStore.getState()
         showNotification({
           description: 'Time is up!',
+          duration: 10000,
         })
 
         const { onFinishActions } = get()

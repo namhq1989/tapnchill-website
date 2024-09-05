@@ -109,12 +109,13 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       return
     }
 
-    const { audio } = get()
+    const { currentStation, audio } = get()
     if (audio) {
       audio.disconnect()
     }
+    const lastStationId = currentStation?.id
 
-    const currentStation = {
+    const newStation = {
       ...station,
       audiences: station.audiences + 1,
     }
@@ -123,13 +124,15 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
     const newStations = stations.map((s) => {
       if (s.id === id) {
         s.audiences = s.audiences + 1
+      } else if (s.id === lastStationId) {
+        s.audiences = s.audiences - 1
       }
       return s
     })
 
     set({
       stations: newStations,
-      currentStation,
+      currentStation: newStation,
       listeningSeconds: 0,
       isListening: false,
       intervalId: null,
