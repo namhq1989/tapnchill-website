@@ -6,7 +6,7 @@ interface IMenuButtonProps {
 }
 
 const MenuButton = (props: IMenuButtonProps) => {
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(true)
   return (
     <MotionConfig
       transition={{

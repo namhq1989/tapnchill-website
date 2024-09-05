@@ -36,7 +36,7 @@ const StationItem = React.forwardRef<HTMLDivElement, IStationItemProps>(
       <motion.div className='flex flex-col col-span-3 md:col-span-2'>
         <motion.div
           ref={ref}
-          className='relative flex flex-col aspect-square p-4 bg-contain bg-no-repeat rounded-3xl mt-2 justify-center items-center cursor-pointer'
+          className='relative flex flex-col aspect-square bg-contain bg-no-repeat rounded-3xl justify-center items-center cursor-pointer'
           style={{
             backgroundImage: `url('/stations/${station.thumbnail}')`,
           }}

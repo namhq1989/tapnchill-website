@@ -31,7 +31,8 @@ const EffectPreview = (props: IEffectPreviewProps) => {
   return (
     <motion.div
       layoutId={props.tabId}
-      className='col-span-6 md:col-span-3 min-h-[170px] glassmorphism p-4'
+      // className='col-span-6 md:col-span-3 min-h-[170px] glassmorphism p-4'
+      className='lg:col-span-3 col-span-6 lg:order-none order-2 min-h-[170px] glassmorphism p-4'
     >
       <motion.div className='flex justify-end items-center'>
         <Settings2

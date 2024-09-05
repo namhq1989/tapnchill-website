@@ -10,6 +10,8 @@ import MoodPreview from '@/mood/preview.tsx'
 import MoodContent from '@/mood/content.tsx'
 import useAppStore from '@/store.ts'
 import WeatherPreview from '@/weather/preview.tsx'
+import FeedbackPreview from '@/feedback/preview.tsx'
+import FeedbackContent from '@/feedback/content.tsx'
 
 interface ITabsProps {
   isMenuOpened: boolean
@@ -39,7 +41,7 @@ const Tabs = (props: ITabsProps) => {
           duration: 0.2,
           ease: 'easeInOut',
         }}
-        className='grid grid-cols-6 gap-4 auto-rows-min w-[500px] max-w-full'
+        className='grid grid-cols-6 gap-4 w-[500px] max-w-full'
       >
         <MoodPreview
           tabId={tabsConfig.tabIds.mood}
@@ -65,6 +67,10 @@ const Tabs = (props: ITabsProps) => {
           tabId={tabsConfig.tabIds.timer}
           onClick={() => setOpenedTabId(tabsConfig.tabIds.timer)}
         />
+        <FeedbackPreview
+          tabId={tabsConfig.tabIds.feedback}
+          onClick={() => setOpenedTabId(tabsConfig.tabIds.feedback)}
+        />
       </motion.div>
 
       <AnimatePresence mode='popLayout'>
@@ -80,6 +86,11 @@ const Tabs = (props: ITabsProps) => {
       <AnimatePresence mode='popLayout'>
         {openedTabId == tabsConfig.tabIds.timer && (
           <TimerContent closeTab={() => setOpenedTabId('')} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence mode='popLayout'>
+        {openedTabId == tabsConfig.tabIds.feedback && (
+          <FeedbackContent closeTab={() => setOpenedTabId('')} />
         )}
       </AnimatePresence>
     </motion.div>

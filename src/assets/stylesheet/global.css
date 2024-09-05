@@ -66,6 +66,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  textarea:focus,
+  input:focus {
+    @apply focus-visible:ring-0 focus-visible:ring-offset-0;
+  }
 }
 
 @layer utilities {

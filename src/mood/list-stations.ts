@@ -2,40 +2,33 @@ import { IStation } from '@/mood/types.ts'
 
 const listStations: IStation[] = [
   {
-    id: 'chilling',
-    name: 'Chilling',
-    streamingUrl: 'http://localhost:8080/chilling',
+    id: 'chill-vibes',
+    name: 'Chill Vibes',
+    streamingUrl: 'http://localhost:8080/chill-vibes',
     audiences: 0,
-    thumbnail: 'chilling.png',
+    thumbnail: 'chill-vibes.jpeg',
   },
   {
-    id: 'motivating',
-    name: 'Motivating',
-    streamingUrl: 'http://localhost:8080/motivating',
+    id: 'focus-flow',
+    name: 'Focus Flow',
+    streamingUrl: 'http://localhost:8080/focus-flow',
     audiences: 0,
-    thumbnail: 'sleeping.png',
+    thumbnail: 'focus-flow.jpeg',
   },
-  // {
-  //   id: 'sleeping',
-  //   name: 'Sleeping',
-  //   streamingUrl: '',
-  //   listeners: 80,
-  //   thumbnail: 'sleeping.png',
-  // },
   {
-    id: 'gaming',
-    name: 'Gaming',
-    streamingUrl: 'http://localhost:8080/gaming',
+    id: 'energize',
+    name: 'Energize',
+    streamingUrl: 'http://localhost:8080/energize',
     audiences: 0,
-    thumbnail: 'focusing.png',
+    thumbnail: 'energize.jpeg',
   },
-  // {
-  //   id: 'happy',
-  //   name: 'Happy',
-  //   streamingUrl: '',
-  //   listeners: 80,
-  //   thumbnail: 'chilling.png',
-  // },
+  {
+    id: 'lo-fi-lounge',
+    name: 'Lo-fi Lounge',
+    streamingUrl: 'http://localhost:8080/lo-fi-lounge',
+    audiences: 0,
+    thumbnail: 'lo-fi-lounge.jpeg',
+  },
 ]
 
 export default listStations

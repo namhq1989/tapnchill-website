@@ -70,7 +70,7 @@ const TimeInput = () => {
         defaultValue={inputTime}
         placeholder='15:00'
         disabled={isRunning}
-        className='text-center w-full max-w-xs text-lg glassmorphism-select'
+        className='text-center w-full max-w-xs text-lg rounded-2xl bg-white/70'
         onClick={() => setCursorPosition(inputRef.current!.selectionStart || 0)}
       />
       <div className='w-8' />

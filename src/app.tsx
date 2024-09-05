@@ -11,7 +11,7 @@ import MaximizeButton from '@/maximize-button.tsx'
 import useSocketStore from '@/socketio/store.ts'
 
 const App = () => {
-  const [isMenuOpened, setIsMenuOpened] = useState(false)
+  const [isMenuOpened, setIsMenuOpened] = useState(true)
   const initTheme = useMoodStore((state) => state.initTheme)
   const connect = useSocketStore((state) => state.connect)
 
