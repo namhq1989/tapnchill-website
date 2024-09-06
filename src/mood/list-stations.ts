@@ -1,6 +1,6 @@
 import { IStation } from '@/mood/types.ts'
 
-const STREAMING_URL = import.meta.env.API_HOST || 'http://localhost:8080'
+const STREAMING_URL = import.meta.env.STREAMING_HOST || 'http://localhost:8080'
 
 const listStations: IStation[] = [
   {
