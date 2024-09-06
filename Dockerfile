@@ -10,6 +10,9 @@ RUN pnpm install
 
 COPY . .
 
+ENV VITE_STREAMING_HOST=https://stm.tapnchill.live
+ENV VITE_API_HOST=https://svc.tapnchill.live
+
 RUN pnpm run build
 
 FROM nginx:alpine AS production
