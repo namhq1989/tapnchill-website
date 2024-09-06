@@ -9,11 +9,14 @@ const useSocketStore = create<ISocketStore>((set, get) => ({
     const { socket } = get()
     if (socket) return
 
-    const newSocket = io(import.meta.env.API_HOST || 'http://localhost:5555', {
-      forceNew: true,
-      transports: ['websocket', 'polling'],
-      upgrade: true,
-    })
+    const newSocket = io(
+      import.meta.env.VITE_API_HOST || 'http://localhost:5555',
+      {
+        forceNew: true,
+        transports: ['websocket', 'polling'],
+        upgrade: true,
+      },
+    )
 
     // newSocket.on('connect', () => {
     //   console.log('connected')
