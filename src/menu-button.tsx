@@ -21,6 +21,7 @@ const MenuButton = (props: IMenuButtonProps) => {
           props.onTap(!active)
           setActive((pv) => !pv)
         }}
+        aria-label='Open menu'
         className='relative h-16 w-16 glassmorphism !rounded-full transition-colors'
       >
         <motion.span
