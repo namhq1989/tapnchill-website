@@ -1,4 +1,5 @@
 import { ElementType } from 'react'
+import { Howl } from 'howler'
 
 export interface IEffect {
   id: string
@@ -8,8 +9,7 @@ export interface IEffect {
   isAdded: boolean
   volume: number
   mutedVolume: number
-  audio?: AudioBufferSourceNode
-  volumeControl?: GainNode
+  audio?: Howl
 }
 
 export interface IEffectStore {

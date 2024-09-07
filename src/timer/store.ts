@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { ITimerStore, TimerAction } from '@/timer/types.ts'
 import useNotificationStore from '@/notification/store.ts'
 import useMoodStore from '@/mood/store.ts'
+import { Howl } from 'howler'
 
 const DEFAULT_TIMER = 900
 
@@ -33,32 +34,23 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
         const { onFinishActions } = get()
 
         if (onFinishActions.includes(TimerAction.Ring)) {
-          let audioCtx: AudioContext | null = new window.AudioContext()
-          const soundSrc = await import(/* @vite-ignore */ `/effects/ding.mp3`)
-          const response = await fetch(soundSrc.default)
-          const arrayBuffer = await response.arrayBuffer()
-          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-
-          const audio = audioCtx.createBufferSource()
-          audio.buffer = audioBuffer
-
-          const volumeControl = audioCtx.createGain()
-          volumeControl.gain.value = 1.5
-
-          volumeControl.connect(audioCtx.destination)
-          audio.connect(volumeControl)
-
-          audio.addEventListener('ended', () => {
-            audio.disconnect(volumeControl)
-            volumeControl.disconnect(audioCtx!.destination)
-
-            audioCtx!.close()
-
-            audioCtx = null
-            console.log('Audio finished and resources cleaned up.')
+          const soundSrc = `${import.meta.env.BASE_URL}effects/ding.mp3`
+          const audio = new Howl({
+            src: [soundSrc],
+            loop: true,
+            volume: 2,
+            onloaderror: (_, error) => {
+              throw new Error(
+                `Failed to load sound effect: ${soundSrc}, Error: ${error}`,
+              )
+            },
           })
 
-          audio.start(0)
+          audio.play()
+          audio.on('end', () => {
+            audio.stop()
+            audio.unload()
+          })
         }
         if (onFinishActions.includes(TimerAction.StopTheRadio)) {
           const { stopListening } = useMoodStore.getState()

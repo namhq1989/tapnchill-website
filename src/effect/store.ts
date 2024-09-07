@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { IEffect, IEffectStore } from '@/effect/types.ts'
 import listEffects from '@/effect/list-effects.ts'
 import useNotificationStore from '@/notification/store.ts'
+import { Howl } from 'howler'
 
 const MAX_ADDED_EFFECTS = 3
 
@@ -44,7 +45,6 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       if (effect.audio) {
         effect.audio!.stop()
         effect.audio = undefined
-        effect.volumeControl = undefined
       }
 
       effect.isAdded = false
@@ -78,7 +78,6 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
     } else {
       modificationEffect.audio?.stop()
       modificationEffect.audio = undefined
-      modificationEffect.volumeControl = undefined
     }
 
     set((state) => ({
@@ -88,11 +87,10 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
 
   changeVolumeValue: (id: string, value: number) => {
     const effect = get().effects.find((e) => e.id === id)
-    if (!effect || !effect.audio || !effect.volumeControl) return
+    if (!effect || !effect.audio) return
 
     const modificationEffect = { ...effect }
-    modificationEffect.volumeControl!.gain.value = value / 100
-    modificationEffect.volumeControl!.gain.value = value / 100
+    modificationEffect.audio!.volume(value / 100)
     modificationEffect.volume = value
 
     set((state) => ({
@@ -104,20 +102,19 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
     let effect = get().effects.find((e) => e.id === id)
     if (!effect) return
 
-    if (!effect.audio || !effect.volumeControl) {
+    if (!effect.audio) {
       effect = await get().addEffectAudio(effect)
     }
 
     const modificationEffect = { ...effect }
-    if (modificationEffect.volumeControl!.gain.value > 0) {
-      modificationEffect.volumeControl!.gain.value = 0
+    if (modificationEffect.audio!.volume() > 0) {
+      modificationEffect.audio!.volume(0)
       modificationEffect.mutedVolume = modificationEffect.volume
       modificationEffect.volume = 0
     } else {
       modificationEffect.volume = modificationEffect.mutedVolume
       modificationEffect.mutedVolume = 0
-      modificationEffect.volumeControl!.gain.value =
-        modificationEffect.volume / 100
+      modificationEffect.audio!.volume(modificationEffect.volume / 100)
     }
 
     set((state) => ({
@@ -130,40 +127,19 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       return effect
     }
 
-    const audioCtx = new window.AudioContext()
-
-    if (audioCtx.state === 'suspended') {
-      const resumeAudioContext = () => {
-        audioCtx.resume().then(() => {
-          document.removeEventListener('click', resumeAudioContext)
-          document.removeEventListener('touchstart', resumeAudioContext)
-        })
-      }
-
-      // Add event listeners to ensure it's resumed after a user interaction
-      document.addEventListener('click', resumeAudioContext)
-      document.addEventListener('touchstart', resumeAudioContext)
-    }
-
     const soundSrc = `${import.meta.env.BASE_URL}effects/${effect.file}`
-    const response = await fetch(soundSrc)
-    if (!response.ok) {
-      throw new Error(`Failed to load sound effect: ${soundSrc}`)
-    }
-    const arrayBuffer = await response.arrayBuffer()
-    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+    effect.audio = new Howl({
+      src: [soundSrc],
+      loop: true,
+      volume: effect.volume / 100,
+      onloaderror: (_, error) => {
+        throw new Error(
+          `Failed to load sound effect: ${soundSrc}, Error: ${error}`,
+        )
+      },
+    })
 
-    effect.audio = audioCtx.createBufferSource()
-    effect.audio.buffer = audioBuffer
-    effect.audio.loop = true
-
-    effect.volumeControl = audioCtx.createGain()
-    effect.volumeControl.gain.value = effect.volume / 100
-
-    effect.volumeControl.connect(audioCtx.destination)
-    effect.audio.connect(effect.volumeControl)
-
-    effect.audio.start(0)
+    effect.audio.play()
 
     return effect
   },
