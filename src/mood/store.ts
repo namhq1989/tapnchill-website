@@ -168,9 +168,9 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
       return
     }
 
-    const { removeAllEffects, toggleEffect, changeVolumeValue } =
+    const { removeAllAddedEffects, toggleEffect, changeVolumeValue } =
       useEffectStore.getState()
-    removeAllEffects()
+    removeAllAddedEffects()
 
     for (const effect of theme.effects) {
       await toggleEffect(effect.id)
