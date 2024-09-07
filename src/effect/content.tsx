@@ -12,7 +12,10 @@ interface IEffectContentProps {
 
 const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
   (props, ref) => {
-    const { effects, toggleEffect } = useEffectStore((state) => state)
+    const { effects, addedEffects, toggleEffect } = useEffectStore(
+      (state) => state,
+    )
+    const addedEffectsIds = addedEffects.map((e) => e.id)
 
     return (
       <motion.div
@@ -30,12 +33,14 @@ const EffectContent = React.forwardRef<HTMLDivElement, IEffectContentProps>(
         </motion.div>
         <motion.div className='grid grid-cols-3 gap-4'>
           {effects.map((effect) => {
+            const isAdded = addedEffectsIds.includes(effect.id)
             return (
               <EffectItem
                 key={effect.id}
                 effect={effect}
+                isAdded={isAdded}
                 toggleIsAdded={() => {
-                  toggleEffect(effect.id)
+                  toggleEffect(effect.id).then()
                 }}
               />
             )

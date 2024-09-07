@@ -37,7 +37,7 @@ const useTimerStore = create<ITimerStore>((set, get) => ({
           const soundSrc = `${import.meta.env.BASE_URL}effects/ding.mp3`
           const audio = new Howl({
             src: [soundSrc],
-            loop: true,
+            loop: false,
             volume: 2,
             onloaderror: (_, error) => {
               throw new Error(
