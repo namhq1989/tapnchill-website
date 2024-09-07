@@ -32,7 +32,7 @@ const TimerContent = React.forwardRef<HTMLDivElement, ITimerContentProps>(
     return (
       <motion.div
         ref={ref}
-        className='fixed overflow-auto scrollbar-hide top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[800px] glassmorphism z-10 p-4'
+        className='fixed overflow-auto scrollbar-hide top-4 left-4 right-4 md:w-[500px] md:max-w-full max-h-[600px] md:max-h-[800px] glassmorphism z-10 p-4'
         layoutId={tabsConfig.tabIds.timer}
         {...animationConfig.contentEnter}
       >
