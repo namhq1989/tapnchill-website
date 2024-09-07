@@ -56,11 +56,6 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
         set({ isBuffering: false })
       })
 
-      // audioElement.addEventListener('canplaythrough', () => {
-      //   console.log('Audio can play through without interruption...')
-      // })
-
-      // Start playing the audio
       audioElement
         .play()
         .then(() => {
@@ -70,7 +65,6 @@ const useMoodStore = create<IMoodStore>((set, get) => ({
         })
         .catch((error) => {
           console.error('Error playing audio:', error)
-          // setIsLoading(false); // Hide loading effect if there's an error
         })
 
       set({ isListening: true, intervalId, audio, volumeControl })
