@@ -4,6 +4,7 @@ import { IEffect } from '@/effect/types.ts'
 
 interface IEffectItemProps {
   effect: IEffect
+  isAdded: boolean
   toggleIsAdded: (id: string) => void
 }
 
@@ -15,7 +16,7 @@ const EffectItem = React.forwardRef<HTMLDivElement, IEffectItemProps>(
     return (
       <motion.div
         ref={ref}
-        className={`flex flex-col w-full py-4 items-center justify-center cursor-pointer ${effect.isAdded ? 'glassmorphism-select' : ''}`}
+        className={`flex flex-col w-full py-4 items-center justify-center cursor-pointer ${props.isAdded ? 'glassmorphism-select' : ''}`}
         onClick={() => props.toggleIsAdded(effect.id)}
       >
         <IconComponent strokeWidth={1} size={40} className='mb-2' />

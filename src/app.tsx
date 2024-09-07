@@ -9,16 +9,22 @@ import IsListeningButton from '@/is-listening-button.tsx'
 import useMoodStore from '@/mood/store.ts'
 import MaximizeButton from '@/maximize-button.tsx'
 import useSocketStore from '@/socketio/store.ts'
+import useAppStore from '@/store.ts'
+import useEffectStore from '@/effect/store.ts'
 
 const App = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(true)
   const initTheme = useMoodStore((state) => state.initTheme)
-  const connect = useSocketStore((state) => state.connect)
+  const connectSocket = useSocketStore((state) => state.connect)
+  const setDeviceType = useAppStore((state) => state.setDeviceType)
+  const initEffects = useEffectStore((state) => state.initEffects)
 
   useEffect(() => {
+    setDeviceType()
     initTheme()
-    connect()
-  }, [initTheme, connect])
+    initEffects()
+    connectSocket()
+  }, [setDeviceType, initTheme, initEffects, connectSocket])
 
   return (
     <motion.div id='app-bg'>

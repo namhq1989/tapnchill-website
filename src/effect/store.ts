@@ -1,13 +1,23 @@
 import { create } from 'zustand'
 import { IEffect, IEffectStore } from '@/effect/types.ts'
-import listEffects from '@/effect/list-effects.ts'
+import listEffects, {
+  DEFAULT_IOS_VOLUME_VALUE,
+  DEFAULT_VOLUME_VALUE,
+} from '@/effect/list-effects.ts'
 import useNotificationStore from '@/notification/store.ts'
 import { Howl } from 'howler'
+import useAppStore from '@/store.ts'
 
 const MAX_ADDED_EFFECTS = 3
 
 const useEffectStore = create<IEffectStore>((set, get) => ({
-  effects: listEffects,
+  effects: [],
+  addedEffects: [],
+  initEffects: () => {
+    const { isIOS } = useAppStore.getState()
+    const effects = listEffects(isIOS())
+    set({ effects })
+  },
 
   uniqueEffects: (effects: IEffect[]) => {
     const effectMap = new Map<string, IEffect>()
@@ -24,46 +34,47 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
   },
 
   addEffectById: async (id: string) => {
-    const effect = get().effects.find((e) => e.id === id)
+    const { isIOS } = useAppStore.getState()
+    const { effects, addedEffects } = get()
+
+    const effect = effects.find((e) => e.id === id)
     if (!effect) return
 
+    const isAdded = addedEffects.findIndex((e) => e.id === id) > -1
+    if (isAdded) return
+
     const modificationEffect = { ...effect }
-    modificationEffect.isAdded = true
     modificationEffect.volume = 0
-    modificationEffect.mutedVolume = 40
-    set((state) => ({
-      effects: state.effects.map((e) => (e.id === id ? modificationEffect : e)),
-    }))
+    modificationEffect.mutedVolume = isIOS()
+      ? DEFAULT_IOS_VOLUME_VALUE
+      : DEFAULT_VOLUME_VALUE
+    addedEffects.push(modificationEffect)
+    set({
+      addedEffects: addedEffects,
+    })
   },
 
-  removeAllEffects: () => {
-    const { effects } = get()
+  removeAllAddedEffects: () => {
+    const { addedEffects, deleteEffectAudio } = get()
 
-    for (const effect of effects) {
-      if (!effect.isAdded) continue
-
-      if (effect.audio) {
-        effect.audio!.stop()
-        effect.audio = undefined
-      }
-
-      effect.isAdded = false
+    for (const effect of addedEffects) {
+      deleteEffectAudio(effect)
     }
 
-    set(() => ({
-      effects,
-    }))
+    set({
+      addedEffects: [],
+    })
   },
 
   toggleEffect: async (id: string) => {
-    const effect = get().effects.find((e) => e.id === id)
+    const { effects, addedEffects } = get()
+
+    const effect = effects.find((e) => e.id === id)
     if (!effect) return
 
-    let modificationEffect = { ...effect }
-    const totalAdded = useEffectStore
-      .getState()
-      .effects.filter((e) => e.isAdded)
-    if (!modificationEffect.isAdded && totalAdded.length >= MAX_ADDED_EFFECTS) {
+    const addedIndex = addedEffects.findIndex((e) => e.id === id)
+    const isAdded = addedIndex > -1
+    if (!isAdded && addedEffects.length >= MAX_ADDED_EFFECTS) {
       const { showErrorNotification } = useNotificationStore.getState()
       showErrorNotification({
         description: 'You can only add up to 3 effects at a time',
@@ -72,34 +83,48 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       return
     }
 
-    modificationEffect.isAdded = !modificationEffect.isAdded
-    if (modificationEffect.isAdded) {
+    if (!isAdded) {
+      let modificationEffect = { ...effect }
       modificationEffect = await get().addEffectAudio(modificationEffect)
+      addedEffects.push(modificationEffect)
+      set({
+        addedEffects,
+      })
     } else {
-      modificationEffect.audio?.stop()
-      modificationEffect.audio = undefined
+      addedEffects[addedIndex] = get().deleteEffectAudio(
+        addedEffects[addedIndex],
+      )
+      if (addedEffects[addedIndex].loopTimeoutId) {
+        clearTimeout(addedEffects[addedIndex].loopTimeoutId)
+        addedEffects[addedIndex].loopTimeoutId = null
+      }
+      delete addedEffects[addedIndex]
+      addedEffects.splice(addedIndex, 1)
+      set({
+        addedEffects,
+      })
     }
-
-    set((state) => ({
-      effects: state.effects.map((e) => (e.id === id ? modificationEffect : e)),
-    }))
   },
 
   changeVolumeValue: (id: string, value: number) => {
-    const effect = get().effects.find((e) => e.id === id)
+    const { addedEffects } = get()
+    const effect = addedEffects.find((e) => e.id === id)
     if (!effect || !effect.audio) return
 
     const modificationEffect = { ...effect }
     modificationEffect.audio!.volume(value / 100)
     modificationEffect.volume = value
 
-    set((state) => ({
-      effects: state.effects.map((e) => (e.id === id ? modificationEffect : e)),
-    }))
+    set({
+      addedEffects: addedEffects.map((e) =>
+        e.id === id ? modificationEffect : e,
+      ),
+    })
   },
 
   toggleMute: async (id: string) => {
-    let effect = get().effects.find((e) => e.id === id)
+    const { addedEffects } = get()
+    let effect = addedEffects.find((e) => e.id === id)
     if (!effect) return
 
     if (!effect.audio) {
@@ -117,9 +142,11 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       modificationEffect.audio!.volume(modificationEffect.volume / 100)
     }
 
-    set((state) => ({
-      effects: state.effects.map((e) => (e.id === id ? modificationEffect : e)),
-    }))
+    set({
+      addedEffects: addedEffects.map((e) =>
+        e.id === id ? modificationEffect : e,
+      ),
+    })
   },
 
   addEffectAudio: async (effect: IEffect): Promise<IEffect> => {
@@ -130,8 +157,18 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
     const soundSrc = `${import.meta.env.BASE_URL}effects/${effect.file}`
     effect.audio = new Howl({
       src: [soundSrc],
-      loop: true,
+      loop: false,
+      html5: true,
+      preload: true,
       volume: effect.volume / 100,
+      onload: () => {
+        if (!effect.isAudioLoaded) {
+          effect.isAudioLoaded = true
+          const duration = effect.audio!.duration() * 1000 // Duration in milliseconds
+          // console.log(effect.id, ': duration', duration)
+          get().playLoop(effect.id, duration)
+        }
+      },
       onloaderror: (_, error) => {
         throw new Error(
           `Failed to load sound effect: ${soundSrc}, Error: ${error}`,
@@ -139,9 +176,40 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       },
     })
 
-    effect.audio.play()
+    return effect
+  },
+
+  deleteEffectAudio: (effect: IEffect) => {
+    if (effect.audio) {
+      effect.audio!.stop()
+      effect.audio!.unload()
+      effect.audio = undefined
+    }
 
     return effect
+  },
+
+  playLoop: (id: string, ms: number) => {
+    const { addedEffects } = get()
+    const effect = addedEffects.find((e) => e.id === id)
+    if (!effect || !effect.audio) return
+
+    // Play the audio
+    effect.audio!.play()
+
+    // Ensure there's no running timeout for this effect
+    if (effect.loopTimeoutId) {
+      clearTimeout(effect.loopTimeoutId)
+      effect.loopTimeoutId = null
+    }
+
+    effect.loopTimeoutId = setTimeout(() => {
+      get().playLoop(effect.id, ms)
+    }, ms - 200)
+
+    set({
+      addedEffects: addedEffects.map((e) => (e.id === id ? effect : e)),
+    })
   },
 }))
 

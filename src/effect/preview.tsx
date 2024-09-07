@@ -4,6 +4,7 @@ import useEffectStore from '@/effect/store.ts'
 import EffectItem from '@/effect/preview-item.tsx'
 import { motion } from 'framer-motion'
 import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '@/store.ts'
 
 interface IEffectPreviewProps {
   tabId: string
@@ -11,11 +12,12 @@ interface IEffectPreviewProps {
 }
 
 const EffectPreview = (props: IEffectPreviewProps) => {
-  const effects = useEffectStore(useShallow((state) => state.effects))
+  const isIOS = useAppStore((state) => state.isIOS)()
+  let addedEffects = useEffectStore(useShallow((state) => state.addedEffects))
   const { changeVolumeValue, toggleMute, uniqueEffects } = useEffectStore(
     (state) => state,
   )
-  const added = uniqueEffects(effects.filter((e) => e.isAdded))
+  addedEffects = uniqueEffects(addedEffects)
 
   const handleVolumeChange = useCallback(
     (id: string) => (value: number) => {
@@ -41,16 +43,19 @@ const EffectPreview = (props: IEffectPreviewProps) => {
           onClick={props.onClick}
         />
       </motion.div>
-      {added.length === 0 ? (
+      {addedEffects.length === 0 ? (
         <motion.div className='flex h-24 items-center justify-center text-muted-foreground'>
           No effects applied
         </motion.div>
       ) : (
-        <motion.div className='flex flex-col py-4 pl-2 pr-4'>
-          {added.map((e) => (
+        <motion.div
+          className={`${isIOS ? 'grid grid-cols-2' : 'flex flex-col'} gap-4 py-4 pl-2 pr-2`}
+        >
+          {addedEffects.map((e) => (
             <EffectItem
               key={e.id}
               effect={e}
+              isIOS={isIOS}
               onVolumeChange={handleVolumeChange(e.id)}
               onToggleMute={() => handleToggleMute(e.id)}
             />
