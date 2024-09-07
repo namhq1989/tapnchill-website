@@ -132,8 +132,13 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
 
     const audioCtx = new window.AudioContext()
 
-    const soundSrc = await import(/* @vite-ignore */ `/effects/${effect.file}`)
-    const response = await fetch(soundSrc.default)
+    // const soundSrc = await import(/* @vite-ignore */ `/effects/${effect.file}`)
+    // const soundSrc = `${import.meta.env.BASE_URL}effects/${effect.file}`
+    const soundSrc = new URL(`/effects/${effect.file}`, import.meta.url).href
+    const response = await fetch(soundSrc)
+    if (!response.ok) {
+      throw new Error(`Failed to load sound effect: ${soundSrc}`)
+    }
     const arrayBuffer = await response.arrayBuffer()
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
 
