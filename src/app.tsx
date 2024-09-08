@@ -1,4 +1,3 @@
-import '@/assets/stylesheet/bg.css'
 import Background from '@/bg.tsx'
 import Tabs from '@/tabs.tsx'
 import MenuButton from '@/menu-button.tsx'
@@ -11,8 +10,10 @@ import MaximizeButton from '@/maximize-button.tsx'
 import useSocketStore from '@/socketio/store.ts'
 import useAppStore from '@/store.ts'
 import useEffectStore from '@/effect/store.ts'
+import LoadingIndicator from '@/loading-indicator.tsx'
 
 const App = () => {
+  const [isInit, setIsInit] = useState(false)
   const [isMenuOpened, setIsMenuOpened] = useState(true)
   const initTheme = useMoodStore((state) => state.initTheme)
   const connectSocket = useSocketStore((state) => state.connect)
@@ -21,9 +22,11 @@ const App = () => {
 
   useEffect(() => {
     setDeviceType()
-    initTheme()
     initEffects()
+    initTheme()
     connectSocket()
+
+    setIsInit(true)
   }, [setDeviceType, initTheme, initEffects, connectSocket])
 
   return (
@@ -38,7 +41,7 @@ const App = () => {
           <MaximizeButton />
           {/*<FeedbackButton />*/}
         </motion.div>
-        <Tabs isMenuOpened={isMenuOpened} />
+        {!isInit ? <LoadingIndicator /> : <Tabs isMenuOpened={isMenuOpened} />}
       </motion.div>
     </motion.div>
   )

@@ -34,13 +34,16 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
   },
 
   addEffectById: async (id: string) => {
+    console.log('add new effect', id)
     const { isIOS } = useAppStore.getState()
     const { effects, addedEffects } = get()
 
     const effect = effects.find((e) => e.id === id)
+    console.log('effect', effect)
     if (!effect) return
 
     const isAdded = addedEffects.findIndex((e) => e.id === id) > -1
+    console.log('isAdded', isAdded)
     if (isAdded) return
 
     const modificationEffect = { ...effect }
@@ -49,8 +52,11 @@ const useEffectStore = create<IEffectStore>((set, get) => ({
       ? DEFAULT_IOS_VOLUME_VALUE
       : DEFAULT_VOLUME_VALUE
     addedEffects.push(modificationEffect)
+
+    console.log('addedEffects', addedEffects)
+
     set({
-      addedEffects: addedEffects,
+      addedEffects,
     })
   },
 
